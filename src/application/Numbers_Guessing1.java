@@ -54,16 +54,18 @@ public class Numbers_Guessing1 extends Application {
 					numericGuess = Integer.parseInt(guess);
 				} catch (NumberFormatException e) {
 					answer = "is not a number, try again!";
+					lowerlab.setText(guess + " " + answer);
+					userInputTextField.clear();
+					return;
 				}
 				if (numericGuess < 1 || numericGuess > 100) {
 					answer = "is outside the given range!";
-				}
-				if (numericGuess < numberToGuess) {
+				}else if (numericGuess < numberToGuess) {
 					answer = "is too little!";
-				} else if (numericGuess > numberToGuess) {
+					} else if (numericGuess > numberToGuess) {
 					answer = "is too much!";
-				} else {
-					upperlab.setText("!!!!!!!!!!!SPOT ON!!!!!!!!!!!!");
+					} else {
+					upperlab.setText("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!SPOT ON!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
 					button.setText("QUIT");
 					button.setOnAction(new EventHandler<ActionEvent>() {
 
