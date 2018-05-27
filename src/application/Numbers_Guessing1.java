@@ -16,17 +16,15 @@ import javafx.stage.Stage;
 
 public class Numbers_Guessing1 extends Application {
 
-	static int numberToGuess;
-
 	public static void main(String[] args) {
-
-		Random random = new Random();
-		numberToGuess = random.nextInt(101);
 		launch(args);
 	}
 
 	@Override
 	public void start(Stage primaryStage) throws Exception {
+
+		Random random = new Random();
+		int numberToGuess = random.nextInt(101);
 
 		StackPane root = new StackPane();
 
@@ -43,8 +41,9 @@ public class Numbers_Guessing1 extends Application {
 		Button button = new Button();
 		button.setText("Enter number");
 
-		EventHandler<ActionEvent> handler = new EventHandler<ActionEvent>() {												 // Local class to handle both identical event handlers
-			
+		EventHandler<ActionEvent> handler = new EventHandler<ActionEvent>() { // handler for both events
+																				// (pressing enter and clicking 'enter
+																				// number' button)
 			@Override
 			public void handle(ActionEvent event) {
 				String guess = userInputTextField.getText();
@@ -60,11 +59,11 @@ public class Numbers_Guessing1 extends Application {
 				}
 				if (numericGuess < 1 || numericGuess > 100) {
 					answer = "is outside the given range!";
-				}else if (numericGuess < numberToGuess) {
+				} else if (numericGuess < numberToGuess) {
 					answer = "is too little!";
-					} else if (numericGuess > numberToGuess) {
+				} else if (numericGuess > numberToGuess) {
 					answer = "is too much!";
-					} else {
+				} else {
 					upperlab.setText("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!SPOT ON!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
 					button.setText("QUIT");
 					button.setOnAction(new EventHandler<ActionEvent>() {
@@ -78,7 +77,7 @@ public class Numbers_Guessing1 extends Application {
 				lowerlab.setText(guess + " " + answer);
 				userInputTextField.clear();
 			}
-		}; 																	// The end
+		}; // The end of handler
 
 		userInputTextField.setOnAction(handler);
 
@@ -94,6 +93,5 @@ public class Numbers_Guessing1 extends Application {
 		primaryStage.setScene(new Scene(root, 250, 100));
 
 		primaryStage.show();
-
 	}
 }
