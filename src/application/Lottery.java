@@ -49,12 +49,15 @@ public class Lottery extends Application {
 		// tb2.setToggleGroup(group);
 		// ToggleButton tb3 = new ToggleButton("3");
 		// tb3.setToggleGroup(group);
-		// EventHandler<ActionEvent> handler = new EventHandler<ActionEvent>() {
-		// @Override
-		// public void handle(ActionEvent event) {}
-		// };
+		EventHandler<ActionEvent> handler = new EventHandler<ActionEvent>() {
+		@Override
+		public void handle(ActionEvent event) {}
+		};
 		// userInputTextField.setOnAction(handler);
 		// button.setOnAction(handler);
+		for(int i=0;i<49;i++) {
+			toggleButtons[i].setOnAction(handler);
+		}
 		root.getChildren().add(upperlab);
 		root.getChildren().add(middlelab);
 		root.getChildren().add(lowerlab);
