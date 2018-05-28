@@ -1,18 +1,17 @@
 package application;
 
+import java.util.ArrayList;
+import java.util.Collections;
+
 import javafx.application.Application;
-import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
+import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
-import javafx.scene.control.TextField;
 import javafx.scene.control.ToggleButton;
-import javafx.scene.control.ToggleGroup;
 import javafx.scene.layout.GridPane;
-import javafx.scene.layout.StackPane;
-import javafx.scene.layout.TilePane;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 
@@ -26,44 +25,62 @@ public class Lottery extends Application {
 		primaryStage.setTitle("Lottery");
 		VBox root = new VBox(4);
 		GridPane pane = new GridPane();
-
-		// StackPane root = new StackPane();
-		Label upperlab = new Label("upper");
-		Label middlelab = new Label("middle");
-		Label lowerlab = new Label("lower");
-		// TextField userInputTextField = new TextField();
-		// userInputTextField.setMinWidth(100);
-		// final ToggleGroup group = new ToggleGroup();
+		Label upperlab = new Label("Select 6 more to Draw!");
+		Label middlelab = new Label();
+		Label lowerlab = new Label();
+		root.setAlignment(Pos.CENTER);
+		lowerlab.setUserData(new ArrayList<Integer>());
 		ToggleButton[] toggleButtons = new ToggleButton[49];
 		for (int i = 0; i < toggleButtons.length; i++) {
 			toggleButtons[i] = new ToggleButton("" + (i + 1));
 			toggleButtons[i].setPrefWidth(30);
 		}
-		Button button = new Button("X");
+		Button button = new Button();
 		button.setPrefWidth(30);
 		button.setStyle("-fx-background-color: Red");
-		// ToggleButton tb1 = new ToggleButton("1");
-		// tb1.setToggleGroup(group);
-		// tb1.setSelected(true);
-		// ToggleButton tb2 = new ToggleButton("2");
-		// tb2.setToggleGroup(group);
-		// ToggleButton tb3 = new ToggleButton("3");
-		// tb3.setToggleGroup(group);
-		EventHandler<ActionEvent> handler = new EventHandler<ActionEvent>() {
-		@Override
-		public void handle(ActionEvent event) {}
+		EventHandler<ActionEvent> handlerTBs = new EventHandler<ActionEvent>() {
+			@SuppressWarnings("unchecked")
+			@Override
+			public void handle(ActionEvent event) {
+				ArrayList<Integer> alreadySelected = (ArrayList<Integer>) lowerlab.getUserData();
+				Integer newSelection = Integer.parseInt(((ToggleButton)event.getSource()).getText());
+				if(((ToggleButton)event.getSource()).isSelected()) {
+					if(alreadySelected.size()<5) {
+						alreadySelected.add(newSelection);
+						button.setText("");
+						upperlab.setText("Select " + (6 - alreadySelected.size()) + " more to Draw!");
+					}else if(alreadySelected.size()==5) {
+						alreadySelected.add(newSelection);
+						button.setText("D");
+						upperlab.setText("Select D button to Draw!");
+					}else if(alreadySelected.size()>5) {
+						((ToggleButton)event.getSource()).setSelected(false);
+						button.setText("D");
+						upperlab.setText("Select D button to Draw!");
+					}
+				}else {
+					while(alreadySelected.remove(newSelection)) {}
+					button.setText("");
+					upperlab.setText("Select " + (6 - alreadySelected.size()) + " more to Draw!");
+				}
+				Collections.sort(alreadySelected);
+				lowerlab.setUserData(alreadySelected);
+				lowerlab.setText(alreadySelected.toString());
+			}
 		};
-		// userInputTextField.setOnAction(handler);
-		// button.setOnAction(handler);
+		EventHandler<ActionEvent> handlerD = new EventHandler<ActionEvent>() {
+			@Override
+			public void handle(ActionEvent event) {
+				middlelab.setText("DRAW!!!");
+			}
+		};
 		for(int i=0;i<49;i++) {
-			toggleButtons[i].setOnAction(handler);
+			toggleButtons[i].setOnAction(handlerTBs);
 		}
+		button.setOnAction(handlerD);
 		root.getChildren().add(upperlab);
 		root.getChildren().add(middlelab);
 		root.getChildren().add(lowerlab);
-		// rows.getChildren().add(userInputTextField);
-		// rows.getChildren().add(button);
-		// root.getChildren().add(rows);
 		for (int i = 0; i < 4; i++) {
 			for (int j = 0; j < 10; j++) {
 				pane.add(toggleButtons[i * 10 + j], j, i);
