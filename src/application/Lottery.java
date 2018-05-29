@@ -1,6 +1,7 @@
 package application;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
 
 import javafx.application.Application;
@@ -38,10 +39,11 @@ public class Lottery extends Application {
 		Button button = new Button();
 		button.setPrefWidth(30);
 		button.setStyle("-fx-background-color: Red");
+		
 		EventHandler<ActionEvent> handlerTBs = new EventHandler<ActionEvent>() {
-			@SuppressWarnings("unchecked")
 			@Override
 			public void handle(ActionEvent event) {
+				@SuppressWarnings("unchecked")
 				ArrayList<Integer> alreadySelected = (ArrayList<Integer>) lowerlab.getUserData();
 				Integer newSelection = Integer.parseInt(((ToggleButton)event.getSource()).getText());
 				if(((ToggleButton)event.getSource()).isSelected()) {
@@ -66,14 +68,41 @@ public class Lottery extends Application {
 				Collections.sort(alreadySelected);
 				lowerlab.setUserData(alreadySelected);
 				lowerlab.setText(alreadySelected.toString());
+				
 			}
 		};
+		
 		EventHandler<ActionEvent> handlerD = new EventHandler<ActionEvent>() {
 			@Override
 			public void handle(ActionEvent event) {
-				middlelab.setText("DRAW!!!");
+				int[] drawnNumbers = new int[6];
+				@SuppressWarnings("unchecked")
+				ArrayList<Integer> chosenNumbers = (ArrayList<Integer>) lowerlab.getUserData();
+				Integer[] arr = new Integer[49];
+				for (int i = 0; i < arr.length; i++) {
+					arr[i] = i + 1;
+				}
+				Collections.shuffle(Arrays.asList(arr));
+				for (int i = 0; i < 6; i++) {
+					drawnNumbers[i] = arr[i];
+				}
+				Arrays.sort(drawnNumbers);
+				upperlab.setText(Arrays.toString(drawnNumbers));
+				int numberOfHits = 0;
+				ArrayList<Integer> hits = new ArrayList<>();
+				for (int i = 0; i < 6; i++) {
+					int currentNumber = chosenNumbers.get(i);
+					for (int j = 0; j < 6; j++) {
+						if (currentNumber == drawnNumbers[j]) {
+							numberOfHits++;
+							hits.add(currentNumber);
+						}
+					}
+				}
+				middlelab.setText(numberOfHits + " hits: " + hits.toString());
 			}
 		};
+		
 		for(int i=0;i<49;i++) {
 			toggleButtons[i].setOnAction(handlerTBs);
 		}
