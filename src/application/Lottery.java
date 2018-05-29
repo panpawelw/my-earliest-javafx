@@ -22,7 +22,7 @@ public class Lottery extends Application {
 	}
 
 	@Override
-	public void start(Stage primaryStage) {
+	public void start(Stage primaryStage) {										// DECLARE BASIC SCENE ELEMENTS
 		primaryStage.setTitle("Lottery");
 		VBox root = new VBox(4);
 		GridPane pane = new GridPane();
@@ -38,58 +38,59 @@ public class Lottery extends Application {
 		}
 		Button button = new Button();
 		button.setPrefWidth(30);
-		button.setStyle("-fx-background-color: Red");
-		
+		button.setStyle("-fx-background-color: Black; -fx-text-fill: Orange; -fx-border-color: White;");
+																				// TOGGLE BUTTONS HANDLER
 		EventHandler<ActionEvent> handlerTBs = new EventHandler<ActionEvent>() {
 			@Override
 			public void handle(ActionEvent event) {
 				@SuppressWarnings("unchecked")
 				ArrayList<Integer> alreadySelected = (ArrayList<Integer>) lowerlab.getUserData();
-				Integer newSelection = Integer.parseInt(((ToggleButton)event.getSource()).getText());
-				if(((ToggleButton)event.getSource()).isSelected()) {
-					if(alreadySelected.size()<5) {
-						alreadySelected.add(newSelection);
+				Integer newSelection = Integer.parseInt(((ToggleButton) event.getSource()).getText());
+				if (((ToggleButton) event.getSource()).isSelected()) {			// has the toggle button been pressed or de-pressed?
+					if (alreadySelected.size() < 5) {							// how many buttons have been selected already?
+						alreadySelected.add(newSelection);						// if less then 5, select a new one and add to the array list
 						button.setText("");
 						upperlab.setText("Select " + (6 - alreadySelected.size()) + " more to Draw!");
-					}else if(alreadySelected.size()==5) {
+					} else if (alreadySelected.size() == 5) {					// if exactly 5 then select a next one and enable Draw button
 						alreadySelected.add(newSelection);
 						button.setText("D");
 						upperlab.setText("Select D button to Draw!");
-					}else if(alreadySelected.size()>5) {
-						((ToggleButton)event.getSource()).setSelected(false);
+					} else if (alreadySelected.size() > 5) {					// more than five then don't allow any more toggle buttons
+						((ToggleButton) event.getSource()).setSelected(false);	// to be pressed
 						button.setText("D");
 						upperlab.setText("Select D button to Draw!");
 					}
-				}else {
-					while(alreadySelected.remove(newSelection)) {}
+				} else {
+					while (alreadySelected.remove(newSelection)) {				// if toggle button is already selected then de-press it and
+					}															// remove selection from the list
 					button.setText("");
 					upperlab.setText("Select " + (6 - alreadySelected.size()) + " more to Draw!");
 				}
-				Collections.sort(alreadySelected);
-				lowerlab.setUserData(alreadySelected);
-				lowerlab.setText(alreadySelected.toString());
-				
+				Collections.sort(alreadySelected);								// sort the list
+				lowerlab.setUserData(alreadySelected);							// store it as user-data in lower label element
+				lowerlab.setText(alreadySelected.toString());					// and display it
+
 			}
 		};
-		
+																				// DRAW BUTTON HANDLER
 		EventHandler<ActionEvent> handlerD = new EventHandler<ActionEvent>() {
 			@Override
 			public void handle(ActionEvent event) {
 				int[] drawnNumbers = new int[6];
 				@SuppressWarnings("unchecked")
 				ArrayList<Integer> chosenNumbers = (ArrayList<Integer>) lowerlab.getUserData();
-				Integer[] arr = new Integer[49];
+				Integer[] arr = new Integer[49];								// create an array of 49 consecutive numbers
 				for (int i = 0; i < arr.length; i++) {
 					arr[i] = i + 1;
 				}
-				Collections.shuffle(Arrays.asList(arr));
+				Collections.shuffle(Arrays.asList(arr));						// shuffle it and draw first 6
 				for (int i = 0; i < 6; i++) {
 					drawnNumbers[i] = arr[i];
 				}
-				Arrays.sort(drawnNumbers);
+				Arrays.sort(drawnNumbers);										// sort it and display it in upper label element
 				upperlab.setText(Arrays.toString(drawnNumbers));
 				int numberOfHits = 0;
-				ArrayList<Integer> hits = new ArrayList<>();
+				ArrayList<Integer> hits = new ArrayList<>();					// check for the number of hits
 				for (int i = 0; i < 6; i++) {
 					int currentNumber = chosenNumbers.get(i);
 					for (int j = 0; j < 6; j++) {
@@ -99,17 +100,17 @@ public class Lottery extends Application {
 						}
 					}
 				}
-				middlelab.setText(numberOfHits + " hits: " + hits.toString());
+				middlelab.setText(numberOfHits + " hits: " + hits.toString());	// display the hits in middle label
 			}
 		};
-		
-		for(int i=0;i<49;i++) {
+																				// ADD ELEMENTS, HANDLERS, SHOW SCENE
+		for (int i = 0; i < 49; i++) {											// multiple handlers for toggle buttons
 			toggleButtons[i].setOnAction(handlerTBs);
 		}
 		button.setOnAction(handlerD);
 		root.getChildren().add(upperlab);
 		root.getChildren().add(middlelab);
-		root.getChildren().add(lowerlab);
+		root.getChildren().add(lowerlab);										// add toggle buttons to the grid
 		for (int i = 0; i < 4; i++) {
 			for (int j = 0; j < 10; j++) {
 				pane.add(toggleButtons[i * 10 + j], j, i);
@@ -120,8 +121,10 @@ public class Lottery extends Application {
 		}
 		pane.add(button, 9, 4);
 		root.getChildren().add(pane);
-
-		primaryStage.setScene(new Scene(root, 300, 190));
+		
+		Scene scene = new Scene(root, 300, 190);
+		scene.getStylesheets().add(getClass().getResource("application.css").toExternalForm()); // add CSS sheet
+		primaryStage.setScene(scene);
 		primaryStage.show();
 	}
 }
