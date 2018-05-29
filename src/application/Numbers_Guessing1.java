@@ -26,22 +26,16 @@ public class Numbers_Guessing1 extends Application {
 		Random random = new Random();
 		int numberToGuess = random.nextInt(101);
 
-		StackPane root = new StackPane();
-
-		VBox rows = new VBox(4);
-
+		VBox root = new VBox(4);
 		primaryStage.setTitle("Guess Numbers #1");
-
 		Label upperlab = new Label("Enter a number between 1 and 100:");
 		Label lowerlab = new Label("...");
-
 		TextField userInputTextField = new TextField();
 		userInputTextField.setMinWidth(100);
-
 		Button button = new Button();
 		button.setText("Enter number");
 
-		EventHandler<ActionEvent> handler = new EventHandler<ActionEvent>() { // handler for both events
+		EventHandler<ActionEvent> handler = new EventHandler<ActionEvent>() { 	// handler for both events
 																				// (pressing enter and clicking 'enter
 																				// number' button)
 			@Override
@@ -80,18 +74,12 @@ public class Numbers_Guessing1 extends Application {
 		}; // The end of handler
 
 		userInputTextField.setOnAction(handler);
-
 		button.setOnAction(handler);
-
-		rows.getChildren().add(upperlab);
-		rows.getChildren().add(userInputTextField);
-		rows.getChildren().add(button);
-		rows.getChildren().add(lowerlab);
-
-		root.getChildren().add(rows);
-
+		root.getChildren().add(upperlab);
+		root.getChildren().add(userInputTextField);
+		root.getChildren().add(button);
+		root.getChildren().add(lowerlab);
 		primaryStage.setScene(new Scene(root, 250, 100));
-
 		primaryStage.show();
 	}
 }
