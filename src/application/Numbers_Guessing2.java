@@ -1,8 +1,5 @@
 package application;
 
-import java.util.ArrayList;
-import java.util.Collections;
-
 import javafx.application.Application;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
@@ -10,7 +7,6 @@ import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
-import javafx.scene.control.ToggleButton;
 import javafx.scene.layout.TilePane;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
@@ -42,12 +38,20 @@ public class Numbers_Guessing2 extends Application {
 		EventHandler<ActionEvent> tooMuchHandler = new EventHandler<ActionEvent>() {
 			@Override
 			public void handle(ActionEvent event) {
-				int min = (int) upperLab.getUserData();
-				int max = (int) middleLowerLab.getUserData();
-				middleUpperLab.setUserData(max);
-				int guess = ((max-min)/2)+min;
-				middleLowerLab.setUserData(guess);
-				middleLowerLab.setText("Guess: " + guess);
+				int attempt = (int) lowerLab.getUserData();
+				attempt++;
+				lowerLab.setUserData(attempt);
+				lowerLab.setText("Attempt: "+attempt);
+				if(attempt>11) {
+					lowerLab.setText("I lost...just kidding, you liar!");
+				}else {
+					int min = (int) upperLab.getUserData();
+					int max = (int) middleLowerLab.getUserData();
+					middleUpperLab.setUserData(max);
+					int guess = ((max-min)/2)+min;
+					middleLowerLab.setUserData(guess);
+					middleLowerLab.setText("Guess: " + guess);
+				}
 			}
 		};
 		
@@ -61,12 +65,20 @@ public class Numbers_Guessing2 extends Application {
 		EventHandler<ActionEvent> notEnoughHandler = new EventHandler<ActionEvent>() {
 			@Override
 			public void handle(ActionEvent event) {
-				int min = (int) middleLowerLab.getUserData();
-				int max = (int) middleUpperLab.getUserData();
-				upperLab.setUserData(min);
-				int guess = ((max-min)/2)+min;
-				middleLowerLab.setUserData(guess);
-				middleLowerLab.setText("Guess: " + guess);
+				int attempt = (int) lowerLab.getUserData();
+				attempt++;
+				lowerLab.setUserData(attempt);
+				lowerLab.setText("Attempt: "+attempt);
+				if(attempt>11) {
+					lowerLab.setText("I lost...just kidding, you liar!");
+				}else {
+					int min = (int) middleLowerLab.getUserData();
+					int max = (int) middleUpperLab.getUserData();
+					upperLab.setUserData(min);
+					int guess = ((max-min)/2)+min;
+					middleLowerLab.setUserData(guess);
+					middleLowerLab.setText("Guess: " + guess);
+				}
 			}
 		};
 		
