@@ -7,10 +7,11 @@ import javafx.scene.layout.BorderPane;
 import javafx.fxml.FXMLLoader;
 
 
-public class Main extends Application {
+public class Dice extends Application {
 	@Override
 	public void start(Stage primaryStage) {
 		try {
+			primaryStage.setTitle("Dice throw simulator");
 			BorderPane root = (BorderPane)FXMLLoader.load(getClass().getResource("Sample.fxml"));
 			Scene scene = new Scene(root,400,400);
 			scene.getStylesheets().add(getClass().getResource("application.css").toExternalForm());
