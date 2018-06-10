@@ -4,7 +4,7 @@
 <?import java.lang.*?>
 <?import javafx.scene.layout.*?>
 
-<GridPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="602.0" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/8">
+<GridPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="602.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.DiceController">
   <columnConstraints>
     <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
     <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
@@ -25,7 +25,7 @@
       <Label alignment="CENTER" prefHeight="67.0" prefWidth="895.0" text="Enter expression directly or use controls below to determine dice throw parameters." textAlignment="CENTER" GridPane.columnSpan="2147483647" />
       <TextField prefHeight="143.0" prefWidth="210.0" GridPane.columnSpan="2147483647" GridPane.rowIndex="1" />
       <Label alignment="CENTER" prefHeight="129.0" prefWidth="505.0" text="Throw result" GridPane.columnSpan="5" GridPane.rowIndex="2" />
-      <Button mnemonicParsing="false" prefHeight="85.0" prefWidth="100.0" text="THROW!" GridPane.columnIndex="5" GridPane.rowIndex="2" />
+      <Button fx:id="throwButton" mnemonicParsing="false" prefHeight="85.0" prefWidth="100.0" text="THROW!" GridPane.columnIndex="5" GridPane.rowIndex="2" />
       <Label alignment="CENTER" prefHeight="131.0" prefWidth="202.0" text="Multiplier" GridPane.columnSpan="2" GridPane.rowIndex="3" />
       <Label alignment="CENTER" prefHeight="107.0" prefWidth="200.0" text="Dice type" GridPane.columnIndex="2" GridPane.columnSpan="2" GridPane.rowIndex="3" />
       <Label alignment="CENTER" prefHeight="148.0" prefWidth="200.0" text="Modifier" GridPane.columnIndex="4" GridPane.columnSpan="2" GridPane.rowIndex="3" />
@@ -47,14 +47,17 @@
             <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
         </rowConstraints>
          <children>
-            <ToggleButton mnemonicParsing="false" prefHeight="43.0" prefWidth="128.0" text="d3" />
-            <ToggleButton mnemonicParsing="false" prefHeight="43.0" prefWidth="119.0" text="d4" GridPane.columnIndex="1" />
-            <ToggleButton mnemonicParsing="false" prefHeight="58.0" prefWidth="100.0" text="d6" GridPane.rowIndex="1" />
-            <ToggleButton mnemonicParsing="false" prefHeight="107.0" prefWidth="100.0" text="d100" GridPane.columnIndex="1" GridPane.rowIndex="3" />
-            <ToggleButton mnemonicParsing="false" prefHeight="98.0" prefWidth="100.0" text="d12" GridPane.columnIndex="1" GridPane.rowIndex="2" />
-            <ToggleButton mnemonicParsing="false" prefHeight="126.0" prefWidth="100.0" text="d8" GridPane.columnIndex="1" GridPane.rowIndex="1" />
-            <ToggleButton mnemonicParsing="false" prefHeight="92.0" prefWidth="100.0" text="d20" GridPane.rowIndex="3" />
-            <ToggleButton mnemonicParsing="false" prefHeight="67.0" prefWidth="100.0" text="d10" GridPane.rowIndex="2" />
+            <ToggleButton mnemonicParsing="false" prefHeight="43.0" prefWidth="128.0" text="d3">
+               <toggleGroup>
+                  <ToggleGroup fx:id="DiceTypeTG" />
+               </toggleGroup></ToggleButton>
+            <ToggleButton mnemonicParsing="false" prefHeight="43.0" prefWidth="119.0" text="d4" toggleGroup="$DiceTypeTG" GridPane.columnIndex="1" />
+            <ToggleButton mnemonicParsing="false" prefHeight="58.0" prefWidth="100.0" text="d6" toggleGroup="$DiceTypeTG" GridPane.rowIndex="1" />
+            <ToggleButton mnemonicParsing="false" prefHeight="107.0" prefWidth="100.0" text="d100" toggleGroup="$DiceTypeTG" GridPane.columnIndex="1" GridPane.rowIndex="3" />
+            <ToggleButton mnemonicParsing="false" prefHeight="98.0" prefWidth="100.0" text="d12" toggleGroup="$DiceTypeTG" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+            <ToggleButton mnemonicParsing="false" prefHeight="126.0" prefWidth="100.0" text="d8" toggleGroup="$DiceTypeTG" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+            <ToggleButton mnemonicParsing="false" prefHeight="92.0" prefWidth="100.0" text="d20" toggleGroup="$DiceTypeTG" GridPane.rowIndex="3" />
+            <ToggleButton mnemonicParsing="false" prefHeight="67.0" prefWidth="100.0" text="d10" toggleGroup="$DiceTypeTG" GridPane.rowIndex="2" />
          </children>
       </GridPane>
    </children>

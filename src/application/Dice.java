@@ -11,6 +11,7 @@ public class Dice extends Application {
 	@Override
 	public void start(Stage primaryStage) {
 		try {
+			primaryStage.setTitle("Dice throw simulator");
 			GridPane root = (GridPane)FXMLLoader.load(getClass().getResource("Dice.fxml"));
 			Scene scene = new Scene(root,400,400);
 			scene.getStylesheets().add(getClass().getResource("application.css").toExternalForm());
@@ -43,23 +44,9 @@ public class Dice extends Application {
 //public class Dice extends Application {
 //	@Override
 //	public void start(Stage primaryStage) {
-//		primaryStage.setTitle("Dice throw simulator");
 //		
-//		EventHandler<ActionEvent> throwHandler = new EventHandler<ActionEvent>() {
-//			@Override
-//			public void handle(ActionEvent event) {
-//				Random rand = new Random(); // dice throw and result output
-//				int multiplier = 0;
-//				int modifier = 0;
-//				int faces = 0;
-//				long finalResult = 0;
-//				for (int l = 1; l < multiplier; l++) {
-//					int result = rand.nextInt(faces) + 1;
-//					finalResult = finalResult + result;
-//				}
-//				finalResult = finalResult + modifier;
-//			}
-//		};
+//		
+//		
 //		
 //		GridPane root = new GridPane();
 //		Label label1 = new Label("Multiplier");
