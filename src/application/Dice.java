@@ -11,7 +11,7 @@ public class Dice extends Application {
 	@Override
 	public void start(Stage primaryStage) {
 		try {
-			primaryStage.setTitle("Dice throw simulator");
+			primaryStage.setTitle("Dice roll simulator");
 			GridPane root = (GridPane)FXMLLoader.load(getClass().getResource("Dice.fxml"));
 			Scene scene = new Scene(root,400,400);
 			scene.getStylesheets().add(getClass().getResource("application.css").toExternalForm());
