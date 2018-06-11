@@ -36,7 +36,7 @@
          <font>
             <Font name="System Bold" size="16.0" />
          </font></TextField>
-      <Label fx:id="rollResultLabel" alignment="CENTER" prefHeight="129.0" prefWidth="505.0" text="Result" GridPane.columnSpan="5" GridPane.rowIndex="2">
+      <Label id="result" fx:id="rollResultLabel" alignment="CENTER" prefHeight="129.0" prefWidth="505.0" stylesheets="@application.css" text="Result" GridPane.columnSpan="5" GridPane.rowIndex="2">
          <font>
             <Font name="System Bold" size="16.0" />
          </font></Label>
@@ -52,21 +52,21 @@
                </stops>
             </RadialGradient>
          </textFill></Button>
-      <Label alignment="CENTER" prefHeight="131.0" prefWidth="202.0" text="Multiplier" GridPane.columnSpan="2" GridPane.rowIndex="3" />
-      <Label alignment="CENTER" prefHeight="107.0" prefWidth="200.0" text="Dice type" GridPane.columnIndex="2" GridPane.columnSpan="2" GridPane.rowIndex="3" />
-      <Label alignment="CENTER" prefHeight="148.0" prefWidth="200.0" text="Modifier" GridPane.columnIndex="4" GridPane.columnSpan="2" GridPane.rowIndex="3" />
-      <TextField alignment="CENTER" prefHeight="106.0" prefWidth="202.0" promptText="1" GridPane.columnSpan="2" GridPane.rowIndex="4">
+      <Label fx:id="multiplierL" alignment="CENTER" prefHeight="131.0" prefWidth="202.0" text="Multiplier" GridPane.columnSpan="2" GridPane.rowIndex="3" />
+      <Label fx:id="diceTypeL" alignment="CENTER" prefHeight="107.0" prefWidth="200.0" text="Dice type" GridPane.columnIndex="2" GridPane.columnSpan="2" GridPane.rowIndex="3" />
+      <Label fx:id="modifierL" alignment="CENTER" prefHeight="148.0" prefWidth="200.0" text="Modifier" GridPane.columnIndex="4" GridPane.columnSpan="2" GridPane.rowIndex="3" />
+      <TextField fx:id="multiplierTF" alignment="CENTER" onAction="#handleMultiplierTF" prefHeight="106.0" prefWidth="202.0" promptText="1" GridPane.columnSpan="2" GridPane.rowIndex="4">
          <font>
             <Font name="System Bold" size="16.0" />
          </font></TextField>
-      <TextField alignment="CENTER" prefHeight="127.0" prefWidth="200.0" promptText="0" GridPane.columnIndex="4" GridPane.columnSpan="2" GridPane.rowIndex="4">
+      <TextField fx:id="modifierTF" alignment="CENTER" onAction="#handleModifierTF" prefHeight="127.0" prefWidth="200.0" promptText="0" GridPane.columnIndex="4" GridPane.columnSpan="2" GridPane.rowIndex="4">
          <font>
             <Font name="System Bold" size="16.0" />
          </font></TextField>
-      <Button mnemonicParsing="false" prefHeight="208.0" prefWidth="101.0" text="+" GridPane.rowIndex="5" />
-      <Button mnemonicParsing="false" prefHeight="121.0" prefWidth="101.0" text="-" GridPane.columnIndex="1" GridPane.rowIndex="5" />
-      <Button mnemonicParsing="false" prefHeight="116.0" prefWidth="100.0" text="+" GridPane.columnIndex="4" GridPane.rowIndex="5" />
-      <Button mnemonicParsing="false" prefHeight="114.0" prefWidth="100.0" text="-" GridPane.columnIndex="5" GridPane.rowIndex="5" />
+      <Button fx:id="multiplierPlusB" mnemonicParsing="false" onAction="#handleMultiplierPlusB" prefHeight="208.0" prefWidth="101.0" text="+" GridPane.rowIndex="5" />
+      <Button fx:id="multiplierMinusB" mnemonicParsing="false" onAction="#handleMultiplierMinusB" prefHeight="121.0" prefWidth="101.0" text="-" GridPane.columnIndex="1" GridPane.rowIndex="5" />
+      <Button fx:id="modifierPlusB" mnemonicParsing="false" onAction="#handleModifierPlusB" prefHeight="116.0" prefWidth="100.0" text="+" GridPane.columnIndex="4" GridPane.rowIndex="5" />
+      <Button fx:id="modifierMinusB" mnemonicParsing="false" onAction="#handleModifierMinusB" prefHeight="114.0" prefWidth="100.0" text="-" GridPane.columnIndex="5" GridPane.rowIndex="5" />
       <GridPane GridPane.columnIndex="2" GridPane.columnSpan="2" GridPane.rowIndex="4" GridPane.rowSpan="2">
         <columnConstraints>
           <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
@@ -83,7 +83,7 @@
                <toggleGroup>
                   <ToggleGroup fx:id="diceTypeTG" />
                </toggleGroup></ToggleButton>
-            <ToggleButton mnemonicParsing="false" prefHeight="43.0" prefWidth="119.0" text="d4" toggleGroup="$diceTypeTG" GridPane.columnIndex="1"/>
+            <ToggleButton mnemonicParsing="false" prefHeight="43.0" prefWidth="119.0" text="d4" toggleGroup="$diceTypeTG" GridPane.columnIndex="1" />
             <ToggleButton mnemonicParsing="false" prefHeight="58.0" prefWidth="100.0" text="d6" toggleGroup="$diceTypeTG" GridPane.rowIndex="1" />
             <ToggleButton mnemonicParsing="false" prefHeight="107.0" prefWidth="100.0" text="d100" toggleGroup="$diceTypeTG" GridPane.columnIndex="1" GridPane.rowIndex="3" />
             <ToggleButton mnemonicParsing="false" prefHeight="98.0" prefWidth="100.0" text="d12" toggleGroup="$diceTypeTG" GridPane.columnIndex="1" GridPane.rowIndex="2" />

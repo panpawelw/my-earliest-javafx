@@ -1,3 +1,7 @@
 .toggle-button:selected {
-    -fx-background-color: Orange;
+    -fx-background-color: Grey;
+}
+
+#rollResultLabel{
+	-fx-border-color: DarkGrey;
 }
