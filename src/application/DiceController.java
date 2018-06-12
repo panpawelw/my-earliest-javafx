@@ -2,6 +2,7 @@ package application;
 
 import java.util.Random;
 
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
@@ -15,6 +16,7 @@ public class DiceController extends GridPane{
 	public Label infoLabel;
 	public Label rollResultLabel;
 	public Button rollButton;
+	@FXML
 	public ToggleGroup diceTypeTG;
 	public Label multiplierL;
 	public Label diceTypeL;
@@ -26,10 +28,17 @@ public class DiceController extends GridPane{
 	public Button modifierPlusB;
 	public Button modifierMinusB;
 	
+	public void myGroupAction(ActionEvent action)
+    {
+      System.out.println("Toggled: " + diceTypeTG.getSelectedToggle().getUserData().toString());
+    }
+	
 	@FXML
 	void initialize() {
 		multiplierL.setUserData(1);
 		modifierL.setUserData(0);
+//		diceTypeTG.
+		
 		
 	}
 	
