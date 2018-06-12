@@ -79,17 +79,17 @@
             <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
         </rowConstraints>
          <children>
-            <ToggleButton mnemonicParsing="false" prefHeight="43.0" prefWidth="128.0" text="d3">
+            <ToggleButton fx:id="tBD3" mnemonicParsing="false" onAction="#handleToggleButtons" prefHeight="43.0" prefWidth="128.0" text="d3">
                <toggleGroup>
                   <ToggleGroup fx:id="diceTypeTG" />
                </toggleGroup></ToggleButton>
-            <ToggleButton mnemonicParsing="false" prefHeight="43.0" prefWidth="119.0" text="d4" toggleGroup="$diceTypeTG" GridPane.columnIndex="1" />
-            <ToggleButton mnemonicParsing="false" prefHeight="58.0" prefWidth="100.0" text="d6" toggleGroup="$diceTypeTG" GridPane.rowIndex="1" />
-            <ToggleButton mnemonicParsing="false" prefHeight="107.0" prefWidth="100.0" text="d100" toggleGroup="$diceTypeTG" GridPane.columnIndex="1" GridPane.rowIndex="3" />
-            <ToggleButton mnemonicParsing="false" prefHeight="98.0" prefWidth="100.0" text="d12" toggleGroup="$diceTypeTG" GridPane.columnIndex="1" GridPane.rowIndex="2" />
-            <ToggleButton mnemonicParsing="false" prefHeight="126.0" prefWidth="100.0" text="d8" toggleGroup="$diceTypeTG" GridPane.columnIndex="1" GridPane.rowIndex="1" />
-            <ToggleButton mnemonicParsing="false" prefHeight="92.0" prefWidth="100.0" text="d20" toggleGroup="$diceTypeTG" GridPane.rowIndex="3" />
-            <ToggleButton mnemonicParsing="false" prefHeight="67.0" prefWidth="100.0" text="d10" toggleGroup="$diceTypeTG" GridPane.rowIndex="2" />
+            <ToggleButton fx:id="tBD4" mnemonicParsing="false" onAction="#handleToggleButtons" prefHeight="43.0" prefWidth="119.0" text="d4" toggleGroup="$diceTypeTG" GridPane.columnIndex="1" />
+            <ToggleButton fx:id="tBD6" mnemonicParsing="false" onAction="#handleToggleButtons" prefHeight="58.0" prefWidth="100.0" text="d6" toggleGroup="$diceTypeTG" GridPane.rowIndex="1" />
+            <ToggleButton fx:id="tBD100" mnemonicParsing="false" onAction="#handleToggleButtons" prefHeight="107.0" prefWidth="100.0" text="d100" toggleGroup="$diceTypeTG" GridPane.columnIndex="1" GridPane.rowIndex="3" />
+            <ToggleButton fx:id="tBD12" mnemonicParsing="false" onAction="#handleToggleButtons" prefHeight="98.0" prefWidth="100.0" text="d12" toggleGroup="$diceTypeTG" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+            <ToggleButton fx:id="tBD8" mnemonicParsing="false" onAction="#handleToggleButtons" prefHeight="126.0" prefWidth="100.0" text="d8" toggleGroup="$diceTypeTG" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+            <ToggleButton fx:id="tBD20" mnemonicParsing="false" onAction="#handleToggleButtons" prefHeight="92.0" prefWidth="100.0" text="d20" toggleGroup="$diceTypeTG" GridPane.rowIndex="3" />
+            <ToggleButton fx:id="tBD10" mnemonicParsing="false" onAction="#handleToggleButtons" prefHeight="67.0" prefWidth="100.0" text="d10" toggleGroup="$diceTypeTG" GridPane.rowIndex="2" />
          </children>
       </GridPane>
    </children>
