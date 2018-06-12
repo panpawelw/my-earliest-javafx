@@ -36,7 +36,7 @@
          <font>
             <Font name="System Bold" size="16.0" />
          </font></TextField>
-      <Label id="result" fx:id="rollResultLabel" alignment="CENTER" prefHeight="129.0" prefWidth="505.0" stylesheets="@application.css" text="Result" GridPane.columnSpan="5" GridPane.rowIndex="2">
+      <Label id="rollResultLabel" fx:id="rollResultLabel" alignment="CENTER" prefHeight="129.0" prefWidth="505.0" stylesheets="@application.css" text="Result" GridPane.columnSpan="5" GridPane.rowIndex="2">
          <font>
             <Font name="System Bold" size="16.0" />
          </font></Label>

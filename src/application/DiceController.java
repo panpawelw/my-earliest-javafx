@@ -52,16 +52,16 @@ public class DiceController extends GridPane{
 	
 	public void handleRollButton() {
 		Random rand = new Random(); // dice roll and result output
-		int multiplier = 0;
-		int modifier = 0;
-		int faces = 0;
+		int multiplier = (int) multiplierL.getUserData();
+		int modifier = (int) modifierL.getUserData();
+		int diceType = (int) diceTypeL.getUserData(); 
 		long finalResult = 0;
-		for (int l = 1; l < multiplier; l++) {
-			int result = rand.nextInt(faces) + 1;
+		for (int l = 0; l < multiplier; l++) {
+			int result = rand.nextInt(diceType) + 1;
 			finalResult = finalResult + result;
 		}
 		finalResult = finalResult + modifier;
-		rollResultLabel.setText("Select all parameters or enter expression!");
+		rollResultLabel.setText("" + finalResult);
 	}
 	
 	public void handleMultiplierTF() {
