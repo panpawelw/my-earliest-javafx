@@ -48,7 +48,18 @@ public class DiceController extends GridPane{
 	}
 	
 	public void handleMultiplierTF() {
-		rollResultLabel.setText("multiplierTF");
+		try {
+			int multiplier = Integer.parseInt(multiplierTF.getText());
+			if(multiplier<1) {
+				multiplierTF.setText("1");
+				multiplierL.setUserData(1);
+			}else {
+				multiplierL.setUserData(multiplier);
+			}
+		}catch(Exception e){
+			multiplierTF.setText("1");
+			multiplierL.setUserData(1);
+		}
 	}
 	
 	public void handleMultiplierPlusB() {
@@ -68,7 +79,13 @@ public class DiceController extends GridPane{
 	}
 	
 	public void handleModifierTF() {
-		rollResultLabel.setText("modifierTF");
+		try {
+			int modifier = Integer.parseInt(modifierTF.getText());
+			modifierL.setUserData(modifier);
+		}catch(Exception e){
+			modifierTF.setText("1");
+			modifierL.setUserData(1);
+		}
 	}
 	
 	public void handleModifierPlusB() {
