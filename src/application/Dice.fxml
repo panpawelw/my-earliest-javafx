@@ -55,11 +55,11 @@
       <Label fx:id="multiplierL" alignment="CENTER" prefHeight="131.0" prefWidth="202.0" text="Multiplier" GridPane.columnSpan="2" GridPane.rowIndex="3" />
       <Label fx:id="diceTypeL" alignment="CENTER" prefHeight="107.0" prefWidth="200.0" text="Dice type" GridPane.columnIndex="2" GridPane.columnSpan="2" GridPane.rowIndex="3" />
       <Label fx:id="modifierL" alignment="CENTER" prefHeight="148.0" prefWidth="200.0" text="Modifier" GridPane.columnIndex="4" GridPane.columnSpan="2" GridPane.rowIndex="3" />
-      <TextField fx:id="multiplierTF" alignment="CENTER" onAction="#handleMultiplierTF" prefHeight="106.0" prefWidth="202.0" promptText="1" GridPane.columnSpan="2" GridPane.rowIndex="4">
+      <TextField fx:id="multiplierTF" alignment="CENTER" onAction="#handleMultiplierTF" onInputMethodTextChanged="#handleMultiplierTF" prefHeight="106.0" prefWidth="202.0" promptText="1" GridPane.columnSpan="2" GridPane.rowIndex="4">
          <font>
             <Font name="System Bold" size="16.0" />
          </font></TextField>
-      <TextField fx:id="modifierTF" alignment="CENTER" onAction="#handleModifierTF" prefHeight="127.0" prefWidth="200.0" promptText="0" GridPane.columnIndex="4" GridPane.columnSpan="2" GridPane.rowIndex="4">
+      <TextField fx:id="modifierTF" alignment="CENTER" onAction="#handleModifierTF" onInputMethodTextChanged="#handleModifierTF" prefHeight="127.0" prefWidth="200.0" promptText="0" GridPane.columnIndex="4" GridPane.columnSpan="2" GridPane.rowIndex="4">
          <font>
             <Font name="System Bold" size="16.0" />
          </font></TextField>
