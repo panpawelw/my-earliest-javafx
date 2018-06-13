@@ -16,6 +16,8 @@ public class DiceController extends GridPane{
 
 	@FXML
 	public Label infoLabel;
+	@FXML
+	public TextField expressionTF;
 	public Label rollResultLabel;
 	public Button rollButton;
 	@FXML
@@ -70,6 +72,9 @@ public class DiceController extends GridPane{
 	}
 	
 	public void handleRollButton() {
+		String expression = expressionTF.getText();
+		System.out.println(expression.matches("\\d*d"));
+		System.out.println(expression);
 		try {
 		Random rand = new Random(); // dice roll and result output
 		long multiplier = (long) multiplierL.getUserData();
