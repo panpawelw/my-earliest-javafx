@@ -82,34 +82,14 @@ public class DiceController extends GridPane{
 		return finalResult;
 	}
 	
-//	public void handleRollButton() {
-//		String expression = expressionTF.getText();
-//		String comment = "";
-//		if(!expression.matches("^\\d*d([3468]|10|12|20|100)\\s*(\\+|-)*\\d*$")) {
-//			if(expression.equals(null)||expression.equals("")) {
-//				rollResultLabel.setText("Using expression!");
-//			}else {
-//				comment = "Invalid expression, using parameters!\n";
-//			}
-//		}
-//		try {
-//			long multiplier = (long) multiplierL.getUserData();
-//			int diceType = (int) diceTypeL.getUserData();
-//			long modifier = (long) modifierL.getUserData();
-//			rollResultLabel.setText(comment + calculateResult(multiplier, diceType, modifier));
-//		}catch(Exception e){
-//			e.printStackTrace();
-//			if(!comment.equals("")) {
-//				rollResultLabel.setText(comment + "Invalid parameters!");
-//			}
-//		}
-//	}
-	
 	public void handleRollButton() {
 		String expression = expressionTF.getText();
 		String comment = "";
 		if(expression.matches("^\\d*d([3468]|10|12|20|100)\\s*(\\+|-)*\\d*$")) {
-			rollResultLabel.setText("Using expression!");
+			long multiplier = Long.parseLong(expression.replaceAll("d([3468]|10|12|20|100)\\s*(\\+|-)*\\d*$", ""));
+			int diceType = Integer.parseInt(expression.replaceAll("^\\d*d","").replaceAll("\\s*(\\+|-)*\\d*$", ""));
+			Long modifier = Long.parseLong(expression.replaceAll("^\\d*d([3468]|10|12|20|100)\\s*", ""));
+			rollResultLabel.setText("" + calculateResult(multiplier, diceType, modifier));
 		}else {
 			if(!expression.equals(null)&&!expression.equals("")) {
 				comment = "Invalid expression, using parameters!\n";
@@ -123,9 +103,7 @@ public class DiceController extends GridPane{
 				e.printStackTrace();
 				rollResultLabel.setText("No expression entered!\nInvalid parameters!");
 			}
-			
 		}
-		
 	}
 	
 	public void handleMultiplierTF() {
