@@ -71,30 +71,61 @@ public class DiceController extends GridPane{
 		});
 	}
 	
-	public void handleRollButton() {
-		String expression = expressionTF.getText();
-		System.out.println(expression.matches("\\d*d"));
-		System.out.println(expression);
-		try {
-		Random rand = new Random(); // dice roll and result output
-		long multiplier = (long) multiplierL.getUserData();
-		long modifier = (long) modifierL.getUserData();
-		int diceType = (int) diceTypeL.getUserData();
+	public long calculateResult(long multiplier, int diceType, long modifier) {
+		Random rand = new Random();
 		long finalResult = 0;
 		for (long l = 0; l < multiplier; l++) {
 			long result = rand.nextInt(diceType) + 1;
 			finalResult = finalResult + result;
 		}
 		finalResult = finalResult + modifier;
-		rollResultLabel.setText("" + finalResult);
-		}catch(Exception e){
-			e.printStackTrace();
-			rollResultLabel.setText("Invalid parameters!");
-			String multiplier = multiplierL.getUserData().toString();
-			String modifier = modifierL.getUserData().toString();
-			String diceType = diceTypeL.getUserData().toString();
-			System.out.println(multiplier + " " + modifier + " " + diceType);
+		return finalResult;
+	}
+	
+//	public void handleRollButton() {
+//		String expression = expressionTF.getText();
+//		String comment = "";
+//		if(!expression.matches("^\\d*d([3468]|10|12|20|100)\\s*(\\+|-)*\\d*$")) {
+//			if(expression.equals(null)||expression.equals("")) {
+//				rollResultLabel.setText("Using expression!");
+//			}else {
+//				comment = "Invalid expression, using parameters!\n";
+//			}
+//		}
+//		try {
+//			long multiplier = (long) multiplierL.getUserData();
+//			int diceType = (int) diceTypeL.getUserData();
+//			long modifier = (long) modifierL.getUserData();
+//			rollResultLabel.setText(comment + calculateResult(multiplier, diceType, modifier));
+//		}catch(Exception e){
+//			e.printStackTrace();
+//			if(!comment.equals("")) {
+//				rollResultLabel.setText(comment + "Invalid parameters!");
+//			}
+//		}
+//	}
+	
+	public void handleRollButton() {
+		String expression = expressionTF.getText();
+		String comment = "";
+		if(expression.matches("^\\d*d([3468]|10|12|20|100)\\s*(\\+|-)*\\d*$")) {
+			rollResultLabel.setText("Using expression!");
+		}else {
+			if(!expression.equals(null)&&!expression.equals("")) {
+				comment = "Invalid expression, using parameters!\n";
+			}
+			try {
+				long multiplier = (long) multiplierL.getUserData();
+				int diceType = (int) diceTypeL.getUserData();
+				long modifier = (long) modifierL.getUserData();
+				rollResultLabel.setText(comment + calculateResult(multiplier, diceType, modifier));
+			}catch(Exception e){
+				e.printStackTrace();
+				rollResultLabel.setText("No expression entered!\nInvalid parameters!");
+			}
+			
 		}
+		
 	}
 	
 	public void handleMultiplierTF() {

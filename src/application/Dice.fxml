@@ -26,17 +26,17 @@
    <children>
       <Label fx:id="infoLabel" alignment="CENTER" prefHeight="67.0" prefWidth="895.0" text="Enter expression directly or use controls below to determine dice throw parameters. Detailed instructions here..." textAlignment="CENTER" wrapText="true" GridPane.columnSpan="2147483647">
          <tooltip>
-            <Tooltip height="1.0" text="Throw parameters are as follows:&#10;- multiplier (X) - how many dice are you going to roll (optional, 1 or more);&#10;- d3-d100 what type of dice are you going to use;&#10;- modifier (Z) - how much should be added or subtracted from the result (optional);&#10;You can either  use controls below or enter an expression using XdY+/-Z format." textAlignment="CENTER" width="5.0">
+            <Tooltip height="1.0" text="Throw parameters are as follows:&#10;- multiplier (X) - how many dice are you going to roll (optional, 1 or more);&#10;- d3, d4, d6, d8, d10, d12, d20, d100 - the type of dice are you going to use;&#10;- modifier (Z) - how much should be added or subtracted from the result (optional);&#10;&#10;You can either  use controls below or enter an expression using XdY+/-Z format.&#10;(IMPORTANT!) The expression takes precedence over parameters you choose." textAlignment="CENTER" width="5.0">
                <font>
                   <Font size="16.0" />
                </font>
             </Tooltip>
          </tooltip></Label>
-      <TextField fx:id="expressionTF" alignment="CENTER" prefHeight="143.0" prefWidth="210.0" text="Enter expression here..." GridPane.columnSpan="2147483647" GridPane.rowIndex="1">
+      <TextField fx:id="expressionTF" alignment="CENTER" prefHeight="143.0" prefWidth="210.0" promptText="Enter expression here..." GridPane.columnSpan="2147483647" GridPane.rowIndex="1">
          <font>
             <Font name="System Bold" size="16.0" />
          </font></TextField>
-      <Label id="rollResultLabel" fx:id="rollResultLabel" alignment="CENTER" prefHeight="129.0" prefWidth="505.0" stylesheets="@application.css" text="Result" GridPane.columnSpan="5" GridPane.rowIndex="2">
+      <Label id="rollResultLabel" fx:id="rollResultLabel" alignment="CENTER" prefHeight="129.0" prefWidth="505.0" stylesheets="@application.css" text="Result" textAlignment="CENTER" GridPane.columnSpan="5" GridPane.rowIndex="2">
          <font>
             <Font name="System Bold" size="16.0" />
          </font></Label>
