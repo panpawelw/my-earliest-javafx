@@ -6,7 +6,6 @@ import javafx.scene.Scene;
 import javafx.scene.layout.GridPane;
 import javafx.fxml.FXMLLoader;
 
-
 public class Dice extends Application {
 	@Override
 	public void start(Stage primaryStage) {

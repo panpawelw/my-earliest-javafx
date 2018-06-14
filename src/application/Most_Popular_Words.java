@@ -1,17 +1,17 @@
 package application;
-	
+
 import javafx.application.Application;
 import javafx.stage.Stage;
 import javafx.scene.Scene;
-import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.GridPane;
 import javafx.fxml.FXMLLoader;
 
-
-public class Main extends Application {
+public class Most_Popular_Words extends Application {
 	@Override
 	public void start(Stage primaryStage) {
 		try {
-			BorderPane root = (BorderPane)FXMLLoader.load(getClass().getResource("Sample.fxml"));
+			primaryStage.setTitle("Most Popular Words");
+			GridPane root = (GridPane)FXMLLoader.load(getClass().getResource("Most_Popular_Words.fxml"));
 			Scene scene = new Scene(root,400,400);
 			scene.getStylesheets().add(getClass().getResource("application.css").toExternalForm());
 			primaryStage.setScene(scene);
