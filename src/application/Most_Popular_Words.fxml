@@ -1,1 +1,52 @@
 <?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import java.lang.*?>
+<?import javafx.scene.layout.*?>
+
+
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1">
+   <top>
+      <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0" BorderPane.alignment="CENTER">
+         <children>
+            <Label alignment="CENTER" text="Please select a list of websites you would like to scan and search criteria for each site.&#10;Most popular words in general and for each specific site will be displayed below and saved to a file.&#10;Charts will be displayed on the right - hand side." textAlignment="CENTER" />
+         </children>
+      </HBox>
+   </top>
+   <bottom>
+      <HBox alignment="CENTER" prefHeight="32.0" prefWidth="800.0" BorderPane.alignment="CENTER">
+         <children>
+            <Label alignment="CENTER" text="Most Popular Words - Copyright pjm77 2018." textAlignment="CENTER" />
+         </children>
+      </HBox>
+   </bottom>
+   <left>
+      <ScrollPane prefHeight="468.0" prefWidth="150.0" BorderPane.alignment="CENTER">
+        <content>
+          <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="455.0" prefWidth="140.0">
+               <children>
+                  <Button layoutX="14.0" layoutY="14.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="120.0" text="Add website" />
+               </children>
+            </AnchorPane>
+        </content>
+      </ScrollPane>
+   </left>
+   <right>
+      <ScrollPane prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER">
+        <content>
+          <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="455.0" prefWidth="190.0" />
+        </content>
+      </ScrollPane>
+   </right>
+   <center>
+      <TabPane prefHeight="200.0" prefWidth="200.0" tabClosingPolicy="UNAVAILABLE" BorderPane.alignment="CENTER">
+        <tabs>
+          <Tab closable="false" text="General">
+            <content>
+              <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" />
+            </content>
+          </Tab>
+        </tabs>
+      </TabPane>
+   </center>
+</BorderPane>
