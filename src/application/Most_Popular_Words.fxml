@@ -9,7 +9,7 @@
    <top>
       <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0" BorderPane.alignment="CENTER">
          <children>
-            <Label alignment="CENTER" text="Please select a list of websites you would like to scan and search criteria for each site.&#10;Most popular words in general and for each specific site will be displayed below and saved to a file.&#10;Charts will be displayed on the right - hand side." textAlignment="CENTER" />
+            <Label alignment="CENTER" text="Please select a list of websites you would like to scan and search criteria for each site.&#10;Most popular words in general and for each specific site will be displayed below and saved to a file.&#10;Charts will be displayed on the right-hand side." textAlignment="CENTER" />
          </children>
       </HBox>
    </top>
