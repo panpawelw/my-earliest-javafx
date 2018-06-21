@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.scene.text.*?>
 <?import javafx.scene.control.*?>
 <?import java.lang.*?>
 <?import javafx.scene.layout.*?>
@@ -20,13 +21,20 @@
       </HBox>
    </bottom>
    <left>
-      <ScrollPane fx:id="websitesPane" prefHeight="468.0" prefWidth="150.0" BorderPane.alignment="CENTER">
+      <ScrollPane hbarPolicy="NEVER" prefHeight="468.0" prefWidth="150.0" vbarPolicy="ALWAYS" BorderPane.alignment="CENTER">
         <content>
-          <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="455.0" prefWidth="140.0">
+          <VBox fx:id="websitesVBox" minHeight="0.0" minWidth="0.0" prefWidth="150.0">
                <children>
-                  <Button fx:id="addButton" layoutX="14.0" layoutY="14.0" mnemonicParsing="false" onAction="#handleAddButton" prefHeight="25.0" prefWidth="120.0" text="Add website" />
+                  <Button fx:id="scanButton" layoutX="10.0" layoutY="14.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="135.0" text="Scan for words">
+                     <font>
+                        <Font size="15.0" />
+                     </font></Button>
+                  <Button fx:id="addButton" layoutX="10.0" layoutY="52.0" mnemonicParsing="false" onAction="#handleAddButton" prefHeight="25.0" prefWidth="135.0" text="Add website">
+                     <font>
+                        <Font size="15.0" />
+                     </font></Button>
                </children>
-            </AnchorPane>
+            </VBox>
         </content>
       </ScrollPane>
    </left>
