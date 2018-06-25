@@ -39,10 +39,18 @@ public class Most_Popular_WordsController extends BorderPane {
 	}
 	
 	public void handleScanButton() {
-		VBox currentVBox = (VBox) websitesVBox.getChildren().get(2);
-		TextField websiteNameTF = (TextField) currentVBox.getChildren().get(0);
-		System.out.println(websiteNameTF.getText());
-		TextField websiteSearchCriteriaTF = (TextField) currentVBox.getChildren().get(1);
-		System.out.println(websiteSearchCriteriaTF.getText());
+		List<String> websitesList = new ArrayList<>();
+		List<String> searchCriteriaList = new ArrayList<>();
+		int numberOfWebsites=websitesVBox.getChildren().size();
+		System.out.println(numberOfWebsites-2);
+		for(int i=2;i<numberOfWebsites;i++) {
+			VBox currentVBox = (VBox) websitesVBox.getChildren().get(i);
+			TextField websiteNameTF = (TextField) currentVBox.getChildren().get(0);
+			websitesList.add(websiteNameTF.getText());
+			TextField websiteSearchCriteriaTF = (TextField) currentVBox.getChildren().get(1);
+			searchCriteriaList.add(websiteSearchCriteriaTF.getText());
+		}
+		System.out.println(websitesList.toString());
+		System.out.println(searchCriteriaList.toString());
 	}
 }
