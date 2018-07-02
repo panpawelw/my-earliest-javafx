@@ -1,7 +1,17 @@
 package application;
 
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
+
+import org.jsoup.Connection;
+import org.jsoup.Jsoup;
+import org.jsoup.nodes.Document;
+import org.jsoup.nodes.Element;
+import org.jsoup.select.Elements;
 
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
@@ -60,5 +70,30 @@ public class Most_Popular_WordsController extends BorderPane {
 		}
 		System.out.println(websitesList.toString());
 		System.out.println(searchCriteriaList.toString());
+		ArrayList<String> firstStep = new ArrayList<>();
+		for (int i = 0; i < websitesList.size(); i++) { // scan each portal for titles
+			String website = websitesList.get(i);
+			Connection connect = Jsoup.connect(website);
+			System.out.println("Connecting to: " + website + "...");
+			try {
+				Document document = connect.get();
+				Elements links = document.select(searchCriteriaList.get(i));
+				for (Element elem : links) {
+					String rawText = elem.text(); // format text to leave only words
+					String justWords = rawText.replaceAll("[^A-Za-zżźćńółęąśŻŹĆĄŚĘŁÓŃ\\s]", "");
+					String toLowerCase = justWords.toLowerCase(); // to lower case
+					firstStep.add(toLowerCase);
+				}
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+		}
+		System.out.println("Saving all popular words to popular_words.txt...");
+		Path firstFile = Paths.get("./popular_words.txt"); // save content to a file
+		try {
+			Files.write(firstFile, firstStep);
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 	}
 }
