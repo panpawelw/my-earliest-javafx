@@ -1,6 +1,7 @@
 package application;
 
 import java.io.IOException;
+import java.io.PrintStream;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -68,9 +69,39 @@ public class Most_Popular_WordsController extends BorderPane {
 			TextField websiteSearchCriteriaTF = (TextField) currentVBox.getChildren().get(1);
 			searchCriteriaList.add(websiteSearchCriteriaTF.getText());
 		}
-		System.out.println(websitesList.toString());
-		System.out.println(searchCriteriaList.toString());
-		ArrayList<String> firstStep = new ArrayList<>();
+//		System.out.println(websitesList.toString());
+//		System.out.println(searchCriteriaList.toString());
+		List<String> firstStep = new ArrayList<>();
+		for (int i = 0; i < websitesList.size(); i++) { // scan each portal for titles
+			String website = websitesList.get(i);
+			Connection connect = Jsoup.connect(website);
+			System.out.println("Connecting to: " + website + "...");
+			try {
+				long start = System.currentTimeMillis();
+				Document document = connect.get();
+				Elements links = document.select(searchCriteriaList.get(i));
+				for (Element elem : links) {
+					String rawText = elem.text(); // format text to leave only words
+					String justWords = rawText.replaceAll("[^A-Za-zżźćńółęąśŻŹĆĄŚĘŁÓŃ\\s]", "");
+					String toLowerCase = justWords.toLowerCase(); // to lower case
+					firstStep.add(toLowerCase);
+				}
+				System.out.println(System.currentTimeMillis() - start);
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+		}
+//		firstStep.stream().filter(s -> s.replaceAll("[^A-Za-zżźćńółęąśŻŹĆĄŚĘŁÓŃ\\s]", "")).map(String::toLowerCase);
+		System.out.println("Saving all popular words to popular_words.txt...");
+		Path firstFile = Paths.get("./popular_words.txt"); // save content to a file
+		try {
+			Files.write(firstFile, firstStep);
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		
+		List<String> firstStep1 = new ArrayList<>();
+		long start = System.currentTimeMillis();
 		for (int i = 0; i < websitesList.size(); i++) { // scan each portal for titles
 			String website = websitesList.get(i);
 			Connection connect = Jsoup.connect(website);
@@ -82,17 +113,18 @@ public class Most_Popular_WordsController extends BorderPane {
 //					String rawText = elem.text(); // format text to leave only words
 //					String justWords = rawText.replaceAll("[^A-Za-zżźćńółęąśŻŹĆĄŚĘŁÓŃ\\s]", "");
 //					String toLowerCase = justWords.toLowerCase(); // to lower case
-					firstStep.add(elem.text());
+					firstStep1.add(elem.text());
 				}
 			} catch (IOException e) {
 				e.printStackTrace();
 			}
 		}
-		firstStep.stream().map(String::toLowerCase);
-		System.out.println("Saving all popular words to popular_words.txt...");
-		Path firstFile = Paths.get("./popular_words.txt"); // save content to a file
+//		firstStep.stream().filter(s -> s.replaceAll("[^A-Za-zżźćńółęąśŻŹĆĄŚĘŁÓŃ\\s]", "")).map(String::toLowerCase);
+		System.out.println(System.currentTimeMillis() - start);
+		System.out.println("Saving all popular words to popular_words1.txt...");
+		Path firstFile1 = Paths.get("./popular_words1.txt"); // save content to a file
 		try {
-			Files.write(firstFile, firstStep);
+			Files.write(firstFile1, firstStep1);
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
