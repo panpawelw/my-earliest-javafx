@@ -79,15 +79,16 @@ public class Most_Popular_WordsController extends BorderPane {
 				Document document = connect.get();
 				Elements links = document.select(searchCriteriaList.get(i));
 				for (Element elem : links) {
-					String rawText = elem.text(); // format text to leave only words
-					String justWords = rawText.replaceAll("[^A-Za-zżźćńółęąśŻŹĆĄŚĘŁÓŃ\\s]", "");
-					String toLowerCase = justWords.toLowerCase(); // to lower case
-					firstStep.add(toLowerCase);
+//					String rawText = elem.text(); // format text to leave only words
+//					String justWords = rawText.replaceAll("[^A-Za-zżźćńółęąśŻŹĆĄŚĘŁÓŃ\\s]", "");
+//					String toLowerCase = justWords.toLowerCase(); // to lower case
+					firstStep.add(elem.text());
 				}
 			} catch (IOException e) {
 				e.printStackTrace();
 			}
 		}
+		firstStep.stream().map(String::toLowerCase);
 		System.out.println("Saving all popular words to popular_words.txt...");
 		Path firstFile = Paths.get("./popular_words.txt"); // save content to a file
 		try {
