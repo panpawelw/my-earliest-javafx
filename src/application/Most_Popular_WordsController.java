@@ -1,6 +1,7 @@
 package application;
 
 import java.io.IOException;
+import java.nio.charset.Charset;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -75,8 +76,11 @@ public class Most_Popular_WordsController extends BorderPane {
 
 		// Scan websites for chosen elements
 		
-		List<String> firstStep = new ArrayList<>();
-		for (int i = 0; i < websitesList.size(); i++) { // scan each portal for titles
+//		List<String> firstStep = new ArrayList<>();
+		int websitesListSize = websitesList.size();
+		String [] rawText = new String[websitesListSize];
+		List<List<String>> websitesWords = new ArrayList<>();
+		for (int i = 0; i < websitesListSize; i++) {
 			String website = websitesList.get(i);
 			Connection connect = Jsoup.connect(website);
 			System.out.println("Connecting to: " + website + "...");
@@ -84,25 +88,34 @@ public class Most_Popular_WordsController extends BorderPane {
 				Document document = connect.get();
 				Elements links = document.select(searchCriteriaList.get(i));
 				for (Element elem : links) {
-					firstStep.add(elem.text());
+					rawText[i] += " " + elem.text();
 				}
 			} catch (IOException e) {
 				e.printStackTrace();
 			}
+			
+			System.out.println(websitesListSize + " " + i);
+			List<String> words = new ArrayList<>();
+			for(String word : rawText[i].split("\\s+")) {words.add(word);}
+			words = words.stream().map(word -> word.replaceAll("[^A-Za-zżźćńółęąśŻŹĆĄŚĘŁÓŃ]", "")).map(String::toLowerCase).collect(Collectors.toList());
+			websitesWords.add(words);
 		}
+		
+		System.out.println(websitesWords);
 		
 		// Remove everything but letters and spaces
 		
-		firstStep = firstStep.stream().map(s -> s.replaceAll("[^A-Za-zżźćńółęąśŻŹĆĄŚĘŁÓŃ\\s]", "")).map(String::toLowerCase).collect(Collectors.toList());
+		
 		
 		// Save to first file
 		
 		System.out.println("Saving all popular words to popular_words.txt...");
-		Path firstFile1 = Paths.get("./popular_words.txt");
-		try {
-			Files.write(firstFile1, firstStep);
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
+//		Path firstFile1 = Paths.get("./popular_words.txt");
+
+//		try {
+//			Files.write(firstFile1, "[onet]" + words);
+//		} catch (IOException e) {
+//			e.printStackTrace();
+//		}
 	}
 }
