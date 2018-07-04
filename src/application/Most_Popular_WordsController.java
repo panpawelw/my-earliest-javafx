@@ -1,12 +1,12 @@
 package application;
 
 import java.io.IOException;
-import java.io.PrintStream;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import org.jsoup.Connection;
 import org.jsoup.Jsoup;
@@ -55,6 +55,9 @@ public class Most_Popular_WordsController extends BorderPane {
 	}
 	
 	public void handleScanButton() {
+		
+		// Get website names and search criteria from UI
+		
 		List<String> websitesList = new ArrayList<>();
 		List<String> searchCriteriaList = new ArrayList<>();
 		int numberOfWebsites=websitesVBox.getChildren().size();
@@ -69,62 +72,35 @@ public class Most_Popular_WordsController extends BorderPane {
 			TextField websiteSearchCriteriaTF = (TextField) currentVBox.getChildren().get(1);
 			searchCriteriaList.add(websiteSearchCriteriaTF.getText());
 		}
-//		System.out.println(websitesList.toString());
-//		System.out.println(searchCriteriaList.toString());
+
+		// Scan websites for chosen elements
+		
 		List<String> firstStep = new ArrayList<>();
 		for (int i = 0; i < websitesList.size(); i++) { // scan each portal for titles
 			String website = websitesList.get(i);
 			Connection connect = Jsoup.connect(website);
 			System.out.println("Connecting to: " + website + "...");
 			try {
-				long start = System.currentTimeMillis();
 				Document document = connect.get();
 				Elements links = document.select(searchCriteriaList.get(i));
 				for (Element elem : links) {
-					String rawText = elem.text(); // format text to leave only words
-					String justWords = rawText.replaceAll("[^A-Za-zżźćńółęąśŻŹĆĄŚĘŁÓŃ\\s]", "");
-					String toLowerCase = justWords.toLowerCase(); // to lower case
-					firstStep.add(toLowerCase);
+					firstStep.add(elem.text());
 				}
-				System.out.println(System.currentTimeMillis() - start);
 			} catch (IOException e) {
 				e.printStackTrace();
 			}
-		}
-//		firstStep.stream().filter(s -> s.replaceAll("[^A-Za-zżźćńółęąśŻŹĆĄŚĘŁÓŃ\\s]", "")).map(String::toLowerCase);
-		System.out.println("Saving all popular words to popular_words.txt...");
-		Path firstFile = Paths.get("./popular_words.txt"); // save content to a file
-		try {
-			Files.write(firstFile, firstStep);
-		} catch (IOException e) {
-			e.printStackTrace();
 		}
 		
-		List<String> firstStep1 = new ArrayList<>();
-		long start = System.currentTimeMillis();
-		for (int i = 0; i < websitesList.size(); i++) { // scan each portal for titles
-			String website = websitesList.get(i);
-			Connection connect = Jsoup.connect(website);
-			System.out.println("Connecting to: " + website + "...");
-			try {
-				Document document = connect.get();
-				Elements links = document.select(searchCriteriaList.get(i));
-				for (Element elem : links) {
-//					String rawText = elem.text(); // format text to leave only words
-//					String justWords = rawText.replaceAll("[^A-Za-zżźćńółęąśŻŹĆĄŚĘŁÓŃ\\s]", "");
-//					String toLowerCase = justWords.toLowerCase(); // to lower case
-					firstStep1.add(elem.text());
-				}
-			} catch (IOException e) {
-				e.printStackTrace();
-			}
-		}
-//		firstStep.stream().filter(s -> s.replaceAll("[^A-Za-zżźćńółęąśŻŹĆĄŚĘŁÓŃ\\s]", "")).map(String::toLowerCase);
-		System.out.println(System.currentTimeMillis() - start);
-		System.out.println("Saving all popular words to popular_words1.txt...");
-		Path firstFile1 = Paths.get("./popular_words1.txt"); // save content to a file
+		// Remove everything but letters and spaces
+		
+		firstStep = firstStep.stream().map(s -> s.replaceAll("[^A-Za-zżźćńółęąśŻŹĆĄŚĘŁÓŃ\\s]", "")).map(String::toLowerCase).collect(Collectors.toList());
+		
+		// Save to first file
+		
+		System.out.println("Saving all popular words to popular_words.txt...");
+		Path firstFile1 = Paths.get("./popular_words.txt");
 		try {
-			Files.write(firstFile1, firstStep1);
+			Files.write(firstFile1, firstStep);
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
