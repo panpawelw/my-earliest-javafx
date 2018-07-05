@@ -38,10 +38,12 @@ public class Most_Popular_WordsController extends BorderPane {
 	public void handleAddButton() {
 		VBox websiteVBox = new VBox();
 		TextField websiteNameTF = new TextField();
-		websiteNameTF.setPromptText("add website...");
+//		websiteNameTF.setPromptText("add website...");
+		websiteNameTF.setText("http://www.onet.pl");
 		websiteNameTF.setPrefWidth(135);
 		TextField websiteSearchCriteriaTF = new TextField();
-		websiteSearchCriteriaTF.setPromptText("add search criteria...");
+//		websiteSearchCriteriaTF.setPromptText("add search criteria...");
+		websiteSearchCriteriaTF.setText("span.title");
 		websiteSearchCriteriaTF.setPrefWidth(135);
 		Button deleteButton = new Button("delete website");
 		deleteButton.setPrefWidth(135);
@@ -84,11 +86,12 @@ public class Most_Popular_WordsController extends BorderPane {
 			String website = websitesList.get(i);
 			Connection connect = Jsoup.connect(website);
 			System.out.println("Connecting to: " + website + "...");
+			rawText[i] = "";
 			try {
 				Document document = connect.get();
 				Elements links = document.select(searchCriteriaList.get(i));
 				for (Element elem : links) {
-					rawText[i] += " " + elem.text();
+					rawText[i] += elem.text() + " ";
 				}
 			} catch (IOException e) {
 				e.printStackTrace();
@@ -97,7 +100,11 @@ public class Most_Popular_WordsController extends BorderPane {
 			System.out.println(websitesListSize + " " + i);
 			List<String> words = new ArrayList<>();
 			for(String word : rawText[i].split("\\s+")) {words.add(word);}
-			words = words.stream().map(word -> word.replaceAll("[^A-Za-zżźćńółęąśŻŹĆĄŚĘŁÓŃ]", "")).map(String::toLowerCase).collect(Collectors.toList());
+			words = words.parallelStream()
+					.map(w -> w.replaceAll("[^A-Za-zżźćńółęąśŻŹĆĄŚĘŁÓŃ]", ""))
+					.filter(w -> w.length()>3)
+					.map(String::toLowerCase)
+					.collect(Collectors.toList());
 			websitesWords.add(words);
 		}
 		
@@ -110,12 +117,11 @@ public class Most_Popular_WordsController extends BorderPane {
 		// Save to first file
 		
 		System.out.println("Saving all popular words to popular_words.txt...");
-//		Path firstFile1 = Paths.get("./popular_words.txt");
-
-//		try {
-//			Files.write(firstFile1, "[onet]" + words);
-//		} catch (IOException e) {
-//			e.printStackTrace();
-//		}
+		Path firstFile = Paths.get("./popular_words.txt");
+		try {
+			Files.write(firstFile, websitesWords.get(0));
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 	}
 }
