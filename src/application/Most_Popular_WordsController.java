@@ -32,6 +32,7 @@ public class Most_Popular_WordsController extends BorderPane {
 	@FXML public Button scanButton;
 	@FXML public Button addButton;
 	@FXML public TabPane tabs;
+	@FXML public Tab generalTab;
 
 	@FXML
 	void initialize() {}
@@ -68,6 +69,7 @@ public class Most_Popular_WordsController extends BorderPane {
 		websitesVBox.getChildren().add(websiteVBox);
 	}
 	
+	// Scan websites button handler
 	public void handleScanButton() {
 		
 		// Get website names and search criteria from UI
@@ -76,6 +78,7 @@ public class Most_Popular_WordsController extends BorderPane {
 		List<String> searchCriteriaList = new ArrayList<>();
 		int numberOfWebsites=websitesVBox.getChildren().size();
 		tabs.getTabs().clear();
+		tabs.getTabs().add(generalTab);
 		System.out.println(numberOfWebsites-2);
 		for(int i=2;i<numberOfWebsites;i++) {
 			VBox currentVBox = (VBox) websitesVBox.getChildren().get(i);
@@ -124,9 +127,14 @@ public class Most_Popular_WordsController extends BorderPane {
 		// Save to first file
 		
 		System.out.println("Saving all popular words to popular_words.txt...");
+		List<String> firstStep = new ArrayList<>();
+		for(int i=0;i<websitesWords.size();i++) {
+			firstStep.add("[" + websitesList.get(i) + "]");
+			firstStep.addAll(websitesWords.get(i));
+		}
 		Path firstFile = Paths.get("./popular_words.txt");
 		try {
-			Files.write(firstFile, websitesWords.get(1));
+			Files.write(firstFile, firstStep);
 		} catch (IOException e) {
 			showErrorWindow("File write error!");
 			e.printStackTrace();
