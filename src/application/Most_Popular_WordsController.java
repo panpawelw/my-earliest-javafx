@@ -1,7 +1,6 @@
 package application;
 
 import java.io.IOException;
-import java.nio.charset.Charset;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -18,6 +17,8 @@ import org.jsoup.select.Elements;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
+import javafx.scene.control.Alert;
+import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
 import javafx.scene.control.Tab;
 import javafx.scene.control.TabPane;
@@ -35,6 +36,16 @@ public class Most_Popular_WordsController extends BorderPane {
 	@FXML
 	void initialize() {}
 	
+	// Show error messages
+	public void showErrorWindow(String errorMessage) {
+		Alert alert = new Alert(AlertType.ERROR);
+		alert.setTitle("Error Dialog");
+		alert.setHeaderText(null);
+		alert.setContentText(errorMessage);
+		alert.showAndWait();
+	}
+	
+	// add website button handler
 	public void handleAddButton() {
 		VBox websiteVBox = new VBox();
 		TextField websiteNameTF = new TextField();
@@ -78,7 +89,6 @@ public class Most_Popular_WordsController extends BorderPane {
 
 		// Scan websites for chosen elements
 		
-//		List<String> firstStep = new ArrayList<>();
 		int websitesListSize = websitesList.size();
 		String [] rawText = new String[websitesListSize];
 		List<List<String>> websitesWords = new ArrayList<>();
@@ -95,6 +105,7 @@ public class Most_Popular_WordsController extends BorderPane {
 				}
 			} catch (IOException e) {
 				e.printStackTrace();
+				
 			}
 			
 			System.out.println(websitesListSize + " " + i);
@@ -110,18 +121,17 @@ public class Most_Popular_WordsController extends BorderPane {
 		
 		System.out.println(websitesWords);
 		
-		// Remove everything but letters and spaces
-		
-		
-		
 		// Save to first file
 		
 		System.out.println("Saving all popular words to popular_words.txt...");
 		Path firstFile = Paths.get("./popular_words.txt");
 		try {
-			Files.write(firstFile, websitesWords.get(0));
+			Files.write(firstFile, websitesWords.get(1));
 		} catch (IOException e) {
+			showErrorWindow("File write error!");
 			e.printStackTrace();
+		} catch (Exception e) {
+			showErrorWindow("Incorrect search criteria!");
 		}
 	}
 }
