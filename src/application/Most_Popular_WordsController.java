@@ -84,10 +84,23 @@ public class Most_Popular_WordsController extends BorderPane {
 			VBox currentVBox = (VBox) websitesVBox.getChildren().get(i);
 			TextField websiteNameTF = (TextField) currentVBox.getChildren().get(0);
 			String websiteName=websiteNameTF.getText();
-			websitesList.add(websiteName);
+			System.out.println(websiteName);
+			if(websiteName.equals(null)||websiteName.equals("")||websiteName.equals(System.getProperty("line.separator"))) {
+				showErrorWindow("You have to enter website address!!!");
+				return;
+			}else {
+				websitesList.add(websiteName);
+			}
 			tabs.getTabs().add(new Tab(websiteName));
 			TextField websiteSearchCriteriaTF = (TextField) currentVBox.getChildren().get(1);
-			searchCriteriaList.add(websiteSearchCriteriaTF.getText());
+			String websiteSearchCriteria=websiteSearchCriteriaTF.getText();
+			System.out.println(websiteSearchCriteria);
+			if(websiteSearchCriteria.equals(null)||websiteSearchCriteria.equals("")||websiteSearchCriteria.equals(System.getProperty("line.separator"))) {
+				showErrorWindow("You have to enter search criteria!!!");
+				return;
+			}else {
+				searchCriteriaList.add(websiteSearchCriteria);
+			}
 		}
 
 		// Scan websites for chosen elements
