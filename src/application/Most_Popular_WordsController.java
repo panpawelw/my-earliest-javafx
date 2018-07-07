@@ -79,14 +79,12 @@ public class Most_Popular_WordsController extends BorderPane {
 		int numberOfWebsites=websitesVBox.getChildren().size();
 		tabs.getTabs().clear();
 		tabs.getTabs().add(generalTab);
-		System.out.println(numberOfWebsites-2);
 		for(int i=2;i<numberOfWebsites;i++) {
 			VBox currentVBox = (VBox) websitesVBox.getChildren().get(i);
 			TextField websiteNameTF = (TextField) currentVBox.getChildren().get(0);
 			String websiteName=websiteNameTF.getText();
-			System.out.println(websiteName);
-			if(websiteName.equals(null)||websiteName.equals("")||websiteName.equals(System.getProperty("line.separator"))) {
-				showErrorWindow("You have to enter website address!!!");
+			if(websiteName.equals("")||websiteName.equals(System.getProperty("line.separator"))) {
+				showErrorWindow("You need to enter website address!!!");
 				return;
 			}else {
 				websitesList.add(websiteName);
@@ -94,9 +92,8 @@ public class Most_Popular_WordsController extends BorderPane {
 			tabs.getTabs().add(new Tab(websiteName));
 			TextField websiteSearchCriteriaTF = (TextField) currentVBox.getChildren().get(1);
 			String websiteSearchCriteria=websiteSearchCriteriaTF.getText();
-			System.out.println(websiteSearchCriteria);
-			if(websiteSearchCriteria.equals(null)||websiteSearchCriteria.equals("")||websiteSearchCriteria.equals(System.getProperty("line.separator"))) {
-				showErrorWindow("You have to enter search criteria!!!");
+			if(websiteSearchCriteria.equals("")||websiteSearchCriteria.equals(System.getProperty("line.separator"))) {
+				showErrorWindow("You need to enter search criteria!!!");
 				return;
 			}else {
 				searchCriteriaList.add(websiteSearchCriteria);
@@ -110,21 +107,20 @@ public class Most_Popular_WordsController extends BorderPane {
 		List<List<String>> websitesWords = new ArrayList<>();
 		for (int i = 0; i < websitesListSize; i++) {
 			String website = websitesList.get(i);
-			Connection connect = Jsoup.connect(website);
-			System.out.println("Connecting to: " + website + "...");
-			rawText[i] = "";
 			try {
+				Connection connect = Jsoup.connect(website);
+				System.out.println("Connecting to: " + website + "...");
+				rawText[i] = "";
 				Document document = connect.get();
 				Elements links = document.select(searchCriteriaList.get(i));
 				for (Element elem : links) {
 					rawText[i] += elem.text() + " ";
 				}
-			} catch (IOException e) {
+			} catch (Exception e) {
 				e.printStackTrace();
-				
+				showErrorWindow("Problem connecting to " + website + "!!!");
 			}
 			
-			System.out.println(websitesListSize + " " + i);
 			List<String> words = new ArrayList<>();
 			for(String word : rawText[i].split("\\s+")) {words.add(word);}
 			words = words.parallelStream()
