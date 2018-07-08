@@ -1,6 +1,8 @@
 package application;
 
 import java.io.IOException;
+import java.nio.charset.Charset;
+import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -20,6 +22,8 @@ import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
+import javafx.scene.control.Label;
+import javafx.scene.control.ScrollPane;
 import javafx.scene.control.Tab;
 import javafx.scene.control.TabPane;
 import javafx.scene.control.TextField;
@@ -27,16 +31,22 @@ import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.VBox;
 
 public class Most_Popular_WordsController extends BorderPane {
-	
-	@FXML public VBox websitesVBox;
-	@FXML public Button scanButton;
-	@FXML public Button addButton;
-	@FXML public TabPane tabs;
-	@FXML public Tab generalTab;
 
 	@FXML
-	void initialize() {}
-	
+	public VBox websitesVBox;
+	@FXML
+	public Button scanButton;
+	@FXML
+	public Button addButton;
+	@FXML
+	public TabPane tabs;
+	@FXML
+	public Tab generalTab;
+
+	@FXML
+	void initialize() {
+	}
+
 	// Show error messages
 	public void showErrorWindow(String errorMessage) {
 		Alert alert = new Alert(AlertType.ERROR);
@@ -46,15 +56,24 @@ public class Most_Popular_WordsController extends BorderPane {
 		alert.showAndWait();
 	}
 	
-	// add website button handler
+	static void saveFile(String path, List<String> content) throws Exception {
+		Files.write(Paths.get(path), content);
+	}
+	
+	static String readFile(String path, Charset encoding) throws IOException {
+		byte[] temp = Files.readAllBytes(Paths.get(path));
+		return new String(temp, encoding);
+	}
+
+	// Add website button handler
 	public void handleAddButton() {
 		VBox websiteVBox = new VBox();
 		TextField websiteNameTF = new TextField();
-//		websiteNameTF.setPromptText("add website...");
+		// websiteNameTF.setPromptText("add website...");
 		websiteNameTF.setText("http://www.onet.pl");
 		websiteNameTF.setPrefWidth(135);
 		TextField websiteSearchCriteriaTF = new TextField();
-//		websiteSearchCriteriaTF.setPromptText("add search criteria...");
+		// websiteSearchCriteriaTF.setPromptText("add search criteria...");
 		websiteSearchCriteriaTF.setText("span.title");
 		websiteSearchCriteriaTF.setPrefWidth(135);
 		Button deleteButton = new Button("delete website");
@@ -68,7 +87,7 @@ public class Most_Popular_WordsController extends BorderPane {
 		websiteVBox.getChildren().addAll(websiteNameTF, websiteSearchCriteriaTF, deleteButton);
 		websitesVBox.getChildren().add(websiteVBox);
 	}
-	
+
 	// Scan websites button handler
 	public void handleScanButton() {
 		
@@ -135,20 +154,28 @@ public class Most_Popular_WordsController extends BorderPane {
 		
 		// Save to first file
 		
-		System.out.println("Saving all popular words to popular_words.txt...");
 		List<String> firstStep = new ArrayList<>();
 		for(int i=0;i<websitesWords.size();i++) {
 			firstStep.add("[" + websitesList.get(i) + "]");
 			firstStep.addAll(websitesWords.get(i));
 		}
-		Path firstFile = Paths.get("./popular_words.txt");
 		try {
-			Files.write(firstFile, firstStep);
+			saveFile("./popular_words.txt", firstStep);
 		} catch (IOException e) {
 			showErrorWindow("File write error!");
 			e.printStackTrace();
 		} catch (Exception e) {
 			showErrorWindow("Incorrect search criteria!");
+		}
+		
+		// Read from first file
+		
+		String secondStep = "";
+		try {
+			secondStep = readFile("./popular_words.txt",StandardCharsets.UTF_8);
+		}catch(IOException e) {
+			e.printStackTrace();
+			showErrorWindow("Error reading popular_words.txt!!!");
 		}
 	}
 }
