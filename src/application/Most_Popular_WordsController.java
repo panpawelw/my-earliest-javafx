@@ -177,5 +177,14 @@ public class Most_Popular_WordsController extends BorderPane {
 			e.printStackTrace();
 			showErrorWindow("Error reading popular_words.txt!!!");
 		}
+		
+		// Analyze file content
+		
+		// Display results
+		
+		ScrollPane sp1 = new ScrollPane();
+		Label allWords = new Label(secondStep);
+		sp1.setContent(allWords);
+		generalTab.setContent(sp1);
 	}
 }
