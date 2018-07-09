@@ -74,30 +74,25 @@ public class Most_Popular_WordsController extends BorderPane {
 		return new String(temp, encoding);
 	}
 
-	// create hashmap of word frequency in string array
-	static HashMap<String, Integer> frequencyMap(String[] rawData) {
-		HashMap<String, Integer> result = new HashMap<>();
+	// create an ordered word frequency map
+	static LinkedHashMap<String, Integer> wordsMap(String[] rawData){
+		HashMap<String, Integer> temp = new HashMap<>();
 		for (String iterator : rawData) {
-			Integer count = result.get(iterator);
+			Integer count = temp.get(iterator);
 			if (count == null)
 				count = 0;
-			result.put(iterator, count + 1);
+			temp.put(iterator, count + 1);
 		}
-		return result;
-	}
-	
-	// sort word frequency map into a linkedhashmap
-	static LinkedHashMap<String, Integer> orderedMap(HashMap<String, Integer> frequencyMap){
 		LinkedHashMap<String, Integer> result = new LinkedHashMap<>();
-		for (int i = 0; i < frequencyMap.size(); i++) {
+		for (int i = 0; i < temp.size(); i++) {
 			Entry<String, Integer> maxEntry = null;
-			for (Entry<String, Integer> entry : frequencyMap.entrySet()) {
+			for (Entry<String, Integer> entry : temp.entrySet()) {
 				if (maxEntry == null || entry.getValue() > maxEntry.getValue()) {
 					maxEntry = entry;
 				}
 			}
 			result.put(maxEntry.getKey(), maxEntry.getValue());
-			frequencyMap.remove(maxEntry.getKey());
+			temp.remove(maxEntry.getKey());
 		}
 		return result;
 	}
@@ -215,17 +210,16 @@ public class Most_Popular_WordsController extends BorderPane {
 
 		// Analyze file content
 
-		String[] websitesContent = secondStep.split("\\[(.*?)\\]");
 		String eol = System.getProperty("line.separator");
-		String[] words = secondStep.split(eol);
+		String generalTabContentTemp = secondStep.replaceAll("\\[(.*?)\\]", "");
+		String[] generalTabContent = generalTabContentTemp.split(eol);
+		String[] xgeneralTabContent = secondStep.split("\\[(.*?)\\]");
 
-		// Display results
+		// Display results in tabs
 
 		ScrollPane generalSP = new ScrollPane();
-		Label allWords = new Label(orderedMap(frequencyMap(words)).toString());
-//		allWords.minWidthProperty().bind(generalSP.widthProperty().subtract(15));
+		Label allWords = new Label(wordsMap(generalTabContent).toString());
 		allWords.maxWidthProperty().bind(generalSP.widthProperty().subtract(15));
-//		allWords.setPrefWidth(tabs.getWidth()-15);
 		allWords.setWrapText(true);
 		allWords.setTextAlignment(TextAlignment.JUSTIFY);
 		generalSP.setContent(allWords);
