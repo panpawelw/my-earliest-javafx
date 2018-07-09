@@ -96,6 +96,17 @@ public class Most_Popular_WordsController extends BorderPane {
 		}
 		return result;
 	}
+	
+	// Display chart and word list in a tab
+	public void displayInTab(String[] wordList, int tab) {
+		ScrollPane newSP = new ScrollPane();
+		Label newLabel = new Label(wordsMap(wordList).toString());
+		newLabel.maxWidthProperty().bind(newSP.widthProperty().subtract(15));
+		newLabel.setWrapText(true);
+		newLabel.setTextAlignment(TextAlignment.JUSTIFY);
+		newSP.setContent(newLabel);
+		tabs.getTabs().get(tab).setContent(newSP);
+	}
 
 	// Add website button handler
 	public void handleAddButton() {
@@ -208,21 +219,22 @@ public class Most_Popular_WordsController extends BorderPane {
 			showErrorWindow("Error reading popular_words.txt!!!");
 		}
 
-		// Analyze file content
+		// Analyze file content and display results in tabs
 
 		String eol = System.getProperty("line.separator");
 		String generalTabContentTemp = secondStep.replaceAll("\\[(.*?)\\]", "");
 		String[] generalTabContent = generalTabContentTemp.split(eol);
-		String[] xgeneralTabContent = secondStep.split("\\[(.*?)\\]");
-
-		// Display results in tabs
-
-		ScrollPane generalSP = new ScrollPane();
-		Label allWords = new Label(wordsMap(generalTabContent).toString());
-		allWords.maxWidthProperty().bind(generalSP.widthProperty().subtract(15));
-		allWords.setWrapText(true);
-		allWords.setTextAlignment(TextAlignment.JUSTIFY);
-		generalSP.setContent(allWords);
-		generalTab.setContent(generalSP);
+		displayInTab(generalTabContent, 0);
+		String[] websitesTabsContent = secondStep.split("\\[(.*?)\\]");
+		for(String temp : websitesTabsContent) {
+			System.out.println(temp + "*");
+		}
+		int numberOfTabs = websitesTabsContent.length;
+		System.out.println(numberOfTabs);
+		String[][] websitesWordsMaps = new String[numberOfTabs][];
+		for(int i=1;i<numberOfTabs;i++) {
+			websitesWordsMaps[i] = websitesTabsContent[i].split(eol);
+			displayInTab(websitesWordsMaps[i], i);
+		}
 	}
 }
