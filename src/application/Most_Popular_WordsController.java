@@ -8,7 +8,9 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Map.Entry;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 
@@ -18,6 +20,7 @@ import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 
+import javafx.beans.property.ReadOnlyDoubleProperty;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
@@ -31,6 +34,7 @@ import javafx.scene.control.TabPane;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.VBox;
+import javafx.scene.text.TextAlignment;
 
 public class Most_Popular_WordsController extends BorderPane {
 
@@ -77,6 +81,22 @@ public class Most_Popular_WordsController extends BorderPane {
 			if (count == null)
 				count = 0;
 			result.put(iterator, count + 1);
+		}
+		return result;
+	}
+	
+	// sort word frequency map into a linkedhashmap
+	static LinkedHashMap<String, Integer> orderedMap(HashMap<String, Integer> frequencyMap){
+		LinkedHashMap<String, Integer> result = new LinkedHashMap<>();
+		for (int i = 0; i < frequencyMap.size(); i++) {
+			Entry<String, Integer> maxEntry = null;
+			for (Entry<String, Integer> entry : frequencyMap.entrySet()) {
+				if (maxEntry == null || entry.getValue() > maxEntry.getValue()) {
+					maxEntry = entry;
+				}
+			}
+			result.put(maxEntry.getKey(), maxEntry.getValue());
+			frequencyMap.remove(maxEntry.getKey());
 		}
 		return result;
 	}
@@ -205,7 +225,10 @@ public class Most_Popular_WordsController extends BorderPane {
 		// Display results
 
 		ScrollPane sp1 = new ScrollPane();
-		Label allWords = new Label(frequencyMap(words).toString());
+		Label allWords = new Label(orderedMap(frequencyMap(words)).toString());
+		allWords.setPrefWidth(tabs.getWidth()-15);
+		allWords.setWrapText(true);
+		allWords.setTextAlignment(TextAlignment.JUSTIFY);
 		sp1.setContent(allWords);
 		generalTab.setContent(sp1);
 	}
