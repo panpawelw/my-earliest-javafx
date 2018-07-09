@@ -20,6 +20,7 @@ import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 
+import javafx.beans.binding.DoubleBinding;
 import javafx.beans.property.ReadOnlyDoubleProperty;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
@@ -186,8 +187,6 @@ public class Most_Popular_WordsController extends BorderPane {
 			websitesWords.add(words);
 		}
 
-		System.out.println(websitesWords);
-
 		// Save to first file
 
 		List<String> firstStep = new ArrayList<>();
@@ -219,17 +218,17 @@ public class Most_Popular_WordsController extends BorderPane {
 		String[] websitesContent = secondStep.split("\\[(.*?)\\]");
 		String eol = System.getProperty("line.separator");
 		String[] words = secondStep.split(eol);
-		System.out.println(frequencyMap(words));
-		
 
 		// Display results
 
-		ScrollPane sp1 = new ScrollPane();
+		ScrollPane generalSP = new ScrollPane();
 		Label allWords = new Label(orderedMap(frequencyMap(words)).toString());
-		allWords.setPrefWidth(tabs.getWidth()-15);
+//		allWords.minWidthProperty().bind(generalSP.widthProperty().subtract(15));
+		allWords.maxWidthProperty().bind(generalSP.widthProperty().subtract(15));
+//		allWords.setPrefWidth(tabs.getWidth()-15);
 		allWords.setWrapText(true);
 		allWords.setTextAlignment(TextAlignment.JUSTIFY);
-		sp1.setContent(allWords);
-		generalTab.setContent(sp1);
+		generalSP.setContent(allWords);
+		generalTab.setContent(generalSP);
 	}
 }
