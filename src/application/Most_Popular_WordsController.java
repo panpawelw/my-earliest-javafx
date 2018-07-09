@@ -7,7 +7,9 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 
 import org.jsoup.Connection;
@@ -55,14 +57,28 @@ public class Most_Popular_WordsController extends BorderPane {
 		alert.setContentText(errorMessage);
 		alert.showAndWait();
 	}
-	
+
+	// Write to file
 	static void saveFile(String path, List<String> content) throws Exception {
 		Files.write(Paths.get(path), content);
 	}
-	
+
+	// Read from file
 	static String readFile(String path, Charset encoding) throws IOException {
 		byte[] temp = Files.readAllBytes(Paths.get(path));
 		return new String(temp, encoding);
+	}
+
+	// create hashmap of word frequency in string array
+	static HashMap<String, Integer> frequencyMap(String[] rawData) {
+		HashMap<String, Integer> result = new HashMap<>();
+		for (String iterator : rawData) {
+			Integer count = result.get(iterator);
+			if (count == null)
+				count = 0;
+			result.put(iterator, count + 1);
+		}
+		return result;
 	}
 
 	// Add website button handler
@@ -90,39 +106,40 @@ public class Most_Popular_WordsController extends BorderPane {
 
 	// Scan websites button handler
 	public void handleScanButton() {
-		
+
 		// Get website names and search criteria from UI
-		
+
 		List<String> websitesList = new ArrayList<>();
 		List<String> searchCriteriaList = new ArrayList<>();
-		int numberOfWebsites=websitesVBox.getChildren().size();
+		int numberOfWebsites = websitesVBox.getChildren().size();
 		tabs.getTabs().clear();
 		tabs.getTabs().add(generalTab);
-		for(int i=2;i<numberOfWebsites;i++) {
+		for (int i = 2; i < numberOfWebsites; i++) {
 			VBox currentVBox = (VBox) websitesVBox.getChildren().get(i);
 			TextField websiteNameTF = (TextField) currentVBox.getChildren().get(0);
-			String websiteName=websiteNameTF.getText();
-			if(websiteName.equals("")||websiteName.equals(System.getProperty("line.separator"))) {
+			String websiteName = websiteNameTF.getText();
+			if (websiteName.equals("") || websiteName.equals(System.getProperty("line.separator"))) {
 				showErrorWindow("You need to enter website address!!!");
 				return;
-			}else {
+			} else {
 				websitesList.add(websiteName);
 			}
 			tabs.getTabs().add(new Tab(websiteName));
 			TextField websiteSearchCriteriaTF = (TextField) currentVBox.getChildren().get(1);
-			String websiteSearchCriteria=websiteSearchCriteriaTF.getText();
-			if(websiteSearchCriteria.equals("")||websiteSearchCriteria.equals(System.getProperty("line.separator"))) {
+			String websiteSearchCriteria = websiteSearchCriteriaTF.getText();
+			if (websiteSearchCriteria.equals("")
+					|| websiteSearchCriteria.equals(System.getProperty("line.separator"))) {
 				showErrorWindow("You need to enter search criteria!!!");
 				return;
-			}else {
+			} else {
 				searchCriteriaList.add(websiteSearchCriteria);
 			}
 		}
 
 		// Scan websites for chosen elements
-		
+
 		int websitesListSize = websitesList.size();
-		String [] rawText = new String[websitesListSize];
+		String[] rawText = new String[websitesListSize];
 		List<List<String>> websitesWords = new ArrayList<>();
 		for (int i = 0; i < websitesListSize; i++) {
 			String website = websitesList.get(i);
@@ -139,23 +156,22 @@ public class Most_Popular_WordsController extends BorderPane {
 				e.printStackTrace();
 				showErrorWindow("Problem connecting to " + website + "!!!");
 			}
-			
+
 			List<String> words = new ArrayList<>();
-			for(String word : rawText[i].split("\\s+")) {words.add(word);}
-			words = words.parallelStream()
-					.map(w -> w.replaceAll("[^A-Za-zżźćńółęąśŻŹĆĄŚĘŁÓŃ]", ""))
-					.filter(w -> w.length()>3)
-					.map(String::toLowerCase)
-					.collect(Collectors.toList());
+			for (String word : rawText[i].split("\\s+")) {
+				words.add(word);
+			}
+			words = words.parallelStream().map(w -> w.replaceAll("[^A-Za-zżźćńółęąśŻŹĆĄŚĘŁÓŃ]", ""))
+					.filter(w -> w.length() > 3).map(String::toLowerCase).collect(Collectors.toList());
 			websitesWords.add(words);
 		}
-		
+
 		System.out.println(websitesWords);
-		
+
 		// Save to first file
-		
+
 		List<String> firstStep = new ArrayList<>();
-		for(int i=0;i<websitesWords.size();i++) {
+		for (int i = 0; i < websitesWords.size(); i++) {
 			firstStep.add("[" + websitesList.get(i) + "]");
 			firstStep.addAll(websitesWords.get(i));
 		}
@@ -167,23 +183,29 @@ public class Most_Popular_WordsController extends BorderPane {
 		} catch (Exception e) {
 			showErrorWindow("Incorrect search criteria!");
 		}
-		
+
 		// Read from first file
-		
+
 		String secondStep = "";
 		try {
-			secondStep = readFile("./popular_words.txt",StandardCharsets.UTF_8);
-		}catch(IOException e) {
+			secondStep = readFile("./popular_words.txt", StandardCharsets.UTF_8);
+		} catch (IOException e) {
 			e.printStackTrace();
 			showErrorWindow("Error reading popular_words.txt!!!");
 		}
-		
+
 		// Analyze file content
+
+		String[] websitesContent = secondStep.split("\\[(.*?)\\]");
+		String eol = System.getProperty("line.separator");
+		String[] words = secondStep.split(eol);
+		System.out.println(frequencyMap(words));
 		
+
 		// Display results
-		
+
 		ScrollPane sp1 = new ScrollPane();
-		Label allWords = new Label(secondStep);
+		Label allWords = new Label(frequencyMap(words).toString());
 		sp1.setContent(allWords);
 		generalTab.setContent(sp1);
 	}
