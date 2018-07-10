@@ -22,9 +22,13 @@ import org.jsoup.select.Elements;
 
 import javafx.beans.binding.DoubleBinding;
 import javafx.beans.property.ReadOnlyDoubleProperty;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
+import javafx.scene.Group;
+import javafx.scene.chart.PieChart;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
@@ -75,7 +79,7 @@ public class Most_Popular_WordsController extends BorderPane {
 	}
 
 	// create an ordered word frequency map
-	static LinkedHashMap<String, Integer> wordsMap(String[] rawData){
+	static LinkedHashMap<String, Integer> wordsMap(String[] rawData) {
 		HashMap<String, Integer> temp = new HashMap<>();
 		for (String iterator : rawData) {
 			Integer count = temp.get(iterator);
@@ -96,15 +100,37 @@ public class Most_Popular_WordsController extends BorderPane {
 		}
 		return result;
 	}
-	
+
 	// Display chart and word list in a tab
 	public void displayInTab(String[] wordList, int tab) {
 		ScrollPane newSP = new ScrollPane();
-		Label newLabel = new Label(wordsMap(wordList).toString());
+		LinkedHashMap<String, Integer> wordsMap = wordsMap(wordList);
+		Label newLabel = new Label(wordsMap.toString());
 		newLabel.maxWidthProperty().bind(newSP.widthProperty().subtract(15));
 		newLabel.setWrapText(true);
 		newLabel.setTextAlignment(TextAlignment.JUSTIFY);
-		newSP.setContent(newLabel);
+		int counter = 0;
+		String[] chartNames = new String[10];
+		int[] chartValues = new int[10];
+		for (Entry<String, Integer> entry : wordsMap.entrySet()) {
+			chartNames[counter]= entry.getKey();
+			chartValues[counter] = entry.getValue();
+			System.out.println(chartNames[counter] + " " + chartValues[counter]);
+			counter++;
+			if(counter>9) {break;}
+		}
+		ObservableList<PieChart.Data> pieChartData = FXCollections.observableArrayList(
+				new PieChart.Data(chartNames[0] + " - " + chartValues[0], chartValues[0]), new PieChart.Data(chartNames[1] + " - " + chartValues[1], chartValues[1]),
+				new PieChart.Data(chartNames[2] + " - " + chartValues[2], chartValues[2]), new PieChart.Data(chartNames[3] + " - " + chartValues[3], chartValues[3]),
+				new PieChart.Data(chartNames[4] + " - " + chartValues[4], chartValues[4]), new PieChart.Data(chartNames[5] + " - " + chartValues[5], chartValues[5]),
+				new PieChart.Data(chartNames[6] + " - " + chartValues[6], chartValues[6]), new PieChart.Data(chartNames[7] + " - " + chartValues[7], chartValues[7]),
+				new PieChart.Data(chartNames[8] + " - " + chartValues[8], chartValues[8]), new PieChart.Data(chartNames[9] + " - " + chartValues[9], chartValues[9]));
+		final PieChart newChart = new PieChart(pieChartData);
+		newChart.setTitle("Most Frequent Words");
+		VBox newVBox = new VBox();
+		newVBox.getChildren().add(newChart);
+		newVBox.getChildren().add(newLabel);
+		newSP.setContent(newVBox);
 		tabs.getTabs().get(tab).setContent(newSP);
 	}
 
@@ -226,13 +252,9 @@ public class Most_Popular_WordsController extends BorderPane {
 		String[] generalTabContent = generalTabContentTemp.split(eol);
 		displayInTab(generalTabContent, 0);
 		String[] websitesTabsContent = secondStep.split("\\[(.*?)\\]");
-		for(String temp : websitesTabsContent) {
-			System.out.println(temp + "*");
-		}
 		int numberOfTabs = websitesTabsContent.length;
-		System.out.println(numberOfTabs);
 		String[][] websitesWordsMaps = new String[numberOfTabs][];
-		for(int i=1;i<numberOfTabs;i++) {
+		for (int i = 1; i < numberOfTabs; i++) {
 			websitesWordsMaps[i] = websitesTabsContent[i].split(eol);
 			displayInTab(websitesWordsMaps[i], i);
 		}
