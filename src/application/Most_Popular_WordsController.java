@@ -249,21 +249,22 @@ public class Most_Popular_WordsController extends BorderPane {
 		String[] websitesTabsContent = secondStep.split("\\[(.*?)\\]");
 		int numberOfTabs = websitesTabsContent.length;
 		List<String> finalResults = new ArrayList<>(); // Final results go into this String array
-		finalResults.add("[10 Most popular words on all scanned websites]");
+		finalResults.add("[10 most popular words on all scanned websites]");
 		finalResults.addAll(1, displayInTab(generalTabContent, 0));
 		String[][] websitesWordsMaps = new String[numberOfTabs][];
 		for (int i = 1; i < numberOfTabs; i++) {
 			websitesWordsMaps[i] = websitesTabsContent[i].split(eol);
-			displayInTab(websitesWordsMaps[i], i);
+			finalResults.add("[10 most popular words on " + websitesList.get(i-1) + "]");
+			finalResults.addAll(finalResults.size(), displayInTab(websitesWordsMaps[i], i));
 		}
-		System.out.println(finalResults);
-		// Save results to second file
+
+		// Save results to the second file
 		
-//		try {
-//			saveFile("./most_popular_words.txt", finalResults.toString().getBytes());
-//		} catch (IOException e) {
-//			showErrorWindow("File write error!");
-//			e.printStackTrace();
-//		}
+		try {
+			saveFile("./most_popular_words.txt", finalResults);
+		} catch (IOException e) {
+			showErrorWindow("File write error!");
+			e.printStackTrace();
+		}
 	}
 }
