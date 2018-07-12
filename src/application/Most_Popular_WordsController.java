@@ -4,14 +4,12 @@ import java.io.IOException;
 import java.nio.charset.Charset;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
-import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map.Entry;
-import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 
 import org.jsoup.Connection;
@@ -20,14 +18,11 @@ import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 
-import javafx.beans.binding.DoubleBinding;
-import javafx.beans.property.ReadOnlyDoubleProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
-import javafx.scene.Group;
 import javafx.scene.chart.PieChart;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
@@ -68,7 +63,7 @@ public class Most_Popular_WordsController extends BorderPane {
 	}
 
 	// Write to file
-	static void saveFile(String path, List<String> content) throws Exception {
+	static void saveFile(String path, List<String> content) throws IOException {
 		Files.write(Paths.get(path), content);
 	}
 
@@ -101,8 +96,9 @@ public class Most_Popular_WordsController extends BorderPane {
 		return result;
 	}
 
-	// Display chart and word list in a tab
-	public void displayInTab(String[] wordList, int tab) {
+	// Display chart and word list in a tab and return list of 10 top results
+	public List<String> displayInTab(String[] wordList, int tab) {
+		List<String> top10 = new ArrayList<>();
 		ScrollPane newSP = new ScrollPane();
 		LinkedHashMap<String, Integer> wordsMap = wordsMap(wordList);
 		Label newLabel = new Label(wordsMap.toString());
@@ -115,7 +111,7 @@ public class Most_Popular_WordsController extends BorderPane {
 		for (Entry<String, Integer> entry : wordsMap.entrySet()) {
 			chartNames[counter]= entry.getKey();
 			chartValues[counter] = entry.getValue();
-			System.out.println(chartNames[counter] + " " + chartValues[counter]);
+			top10.add(chartNames[counter] + " - " + chartValues[counter]);
 			counter++;
 			if(counter>9) {break;}
 		}
@@ -132,6 +128,7 @@ public class Most_Popular_WordsController extends BorderPane {
 		newVBox.getChildren().add(newLabel);
 		newSP.setContent(newVBox);
 		tabs.getTabs().get(tab).setContent(newSP);
+		return top10;
 	}
 
 	// Add website button handler
@@ -198,7 +195,6 @@ public class Most_Popular_WordsController extends BorderPane {
 			String website = websitesList.get(i);
 			try {
 				Connection connect = Jsoup.connect(website);
-				System.out.println("Connecting to: " + website + "...");
 				rawText[i] = "";
 				Document document = connect.get();
 				Elements links = document.select(searchCriteriaList.get(i));
@@ -250,13 +246,24 @@ public class Most_Popular_WordsController extends BorderPane {
 		String eol = System.getProperty("line.separator");
 		String generalTabContentTemp = secondStep.replaceAll("\\[(.*?)\\]", "");
 		String[] generalTabContent = generalTabContentTemp.split(eol);
-		displayInTab(generalTabContent, 0);
 		String[] websitesTabsContent = secondStep.split("\\[(.*?)\\]");
 		int numberOfTabs = websitesTabsContent.length;
+		List<String> finalResults = new ArrayList<>(); // Final results go into this String array
+		finalResults.add("[10 Most popular words on all scanned websites]");
+		finalResults.addAll(1, displayInTab(generalTabContent, 0));
 		String[][] websitesWordsMaps = new String[numberOfTabs][];
 		for (int i = 1; i < numberOfTabs; i++) {
 			websitesWordsMaps[i] = websitesTabsContent[i].split(eol);
 			displayInTab(websitesWordsMaps[i], i);
 		}
+		System.out.println(finalResults);
+		// Save results to second file
+		
+//		try {
+//			saveFile("./most_popular_words.txt", finalResults.toString().getBytes());
+//		} catch (IOException e) {
+//			showErrorWindow("File write error!");
+//			e.printStackTrace();
+//		}
 	}
 }
