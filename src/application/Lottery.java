@@ -69,45 +69,44 @@ public class Lottery extends Application {
 				Collections.sort(alreadySelected);								// sort the list
 				lowerlab.setUserData(alreadySelected);							// store it as user-data in lower label element
 				lowerlab.setText(alreadySelected.toString());					// and display it
-
 			}
 		};
-																				// DRAW BUTTON HANDLER
-		EventHandler<ActionEvent> handlerD = new EventHandler<ActionEvent>() {
-			@Override
-			public void handle(ActionEvent event) {
-				int[] drawnNumbers = new int[6];
-				@SuppressWarnings("unchecked")
-				ArrayList<Integer> chosenNumbers = (ArrayList<Integer>) lowerlab.getUserData();
-				Integer[] arr = new Integer[49];								// create an array of 49 consecutive numbers
-				for (int i = 0; i < arr.length; i++) {
-					arr[i] = i + 1;
-				}
-				Collections.shuffle(Arrays.asList(arr));						// shuffle it and draw first 6
-				for (int i = 0; i < 6; i++) {
-					drawnNumbers[i] = arr[i];
-				}
-				Arrays.sort(drawnNumbers);										// sort it and display it in upper label element
-				upperlab.setText(Arrays.toString(drawnNumbers));
-				int numberOfHits = 0;
-				ArrayList<Integer> hits = new ArrayList<>();					// check for the number of hits
-				for (int i = 0; i < 6; i++) {
-					int currentNumber = chosenNumbers.get(i);
-					for (int j = 0; j < 6; j++) {
-						if (currentNumber == drawnNumbers[j]) {
-							numberOfHits++;
-							hits.add(currentNumber);
-						}
-					}
-				}
-				middlelab.setText(numberOfHits + " hits: " + hits.toString());	// display the hits in middle label
-			}
-		};
-																				// ADD ELEMENTS, HANDLERS, SHOW SCENE
-		for (int i = 0; i < 49; i++) {											// multiple handlers for toggle buttons
+		
+		// ADD ELEMENTS, HANDLERS, SHOW SCENE
+		
+		for (int i = 0; i < 49; i++) {										// multiple handlers for toggle buttons
 			toggleButtons[i].setOnAction(handlerTBs);
 		}
-		button.setOnAction(handlerD);
+		button.setOnAction((handlerD) -> {									// DRAW BUTTON HANDLER
+			@SuppressWarnings("unchecked")
+			ArrayList<Integer> chosenNumbers = (ArrayList<Integer>) lowerlab.getUserData();
+			if(chosenNumbers.size()==6) {									// check if enough numbers have been chosen 
+			int[] drawnNumbers = new int[6];
+			Integer[] arr = new Integer[49];								// create an array of 49 consecutive numbers
+			for (int i = 0; i < arr.length; i++) {
+				arr[i] = i + 1;
+			}
+			Collections.shuffle(Arrays.asList(arr));						// shuffle it and draw first 6
+			for (int i = 0; i < 6; i++) {
+				drawnNumbers[i] = arr[i];
+			}
+			Arrays.sort(drawnNumbers);										// sort it and display it in upper label element
+			upperlab.setText(Arrays.toString(drawnNumbers));
+			int numberOfHits = 0;
+			ArrayList<Integer> hits = new ArrayList<>();					// check for the number of hits
+			for (int i = 0; i < 6; i++) {
+				int currentNumber = chosenNumbers.get(i);
+				for (int j = 0; j < 6; j++) {
+					if (currentNumber == drawnNumbers[j]) {
+						numberOfHits++;
+						hits.add(currentNumber);
+					}
+				}
+			}
+			middlelab.setText(numberOfHits + " hit(s): " + hits.toString());	// display the hits in middle label
+			}
+		});
+		
 		root.getChildren().add(upperlab);
 		root.getChildren().add(middlelab);
 		root.getChildren().add(lowerlab);										// add toggle buttons to the grid
