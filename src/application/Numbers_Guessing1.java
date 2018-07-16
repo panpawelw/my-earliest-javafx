@@ -31,8 +31,7 @@ public class Numbers_Guessing1 extends Application {
 		Label lowerlab = new Label("...");
 		TextField userInputTextField = new TextField();
 		userInputTextField.setMinWidth(100);
-		Button button = new Button();
-		button.setText("Enter number");
+		Button button = new Button("Enter number");
 
 		EventHandler<ActionEvent> handler = new EventHandler<ActionEvent>() { 	// handler for both events
 																				// (pressing enter and clicking 'enter
@@ -45,29 +44,23 @@ public class Numbers_Guessing1 extends Application {
 				try {
 					numericGuess = Integer.parseInt(guess);
 				} catch (NumberFormatException e) {
-					answer = "is not a number, try again!";
+					answer = "not a number, try again!";
 					lowerlab.setText(guess + " " + answer);
 					userInputTextField.clear();
 					return;
 				}
 				if (numericGuess < 1 || numericGuess > 100) {
-					answer = "is outside the given range!";
+					answer = "outside given range!";
 				} else if (numericGuess < numberToGuess) {
-					answer = "is too little!";
+					answer = "too little!";
 				} else if (numericGuess > numberToGuess) {
-					answer = "is too much!";
+					answer = "too much!";
 				} else {
 					upperlab.setText("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!SPOT ON!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
 					button.setText("QUIT");
-					button.setOnAction(new EventHandler<ActionEvent>() {
-
-						@Override
-						public void handle(ActionEvent event) {
-							Platform.exit();
-						}
-					});
+					button.setOnAction((exitEvent) -> {Platform.exit();});
 				}
-				lowerlab.setText(guess + " " + answer);
+				lowerlab.setText(guess + " is " + answer);
 				userInputTextField.clear();
 			}
 		}; // The end of handler
