@@ -83,7 +83,6 @@ public class Numbers_Guessing2 extends Application {
 		};
 
 		setButtonHandlers(button1, null, button2, startHandler, button3, null);
-		button2.setOnAction(startHandler);
 		root.getChildren().add(upperLab);
 		root.getChildren().add(middleUpperLab);
 		root.getChildren().add(middleLowerLab);
