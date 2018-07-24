@@ -1,0 +1,14 @@
+[10 most popular words on all scanned websites]
+polski - 7
+jest - 6
+warto - 5
+brzęczek - 5
+tego - 5
+zobacz - 5
+[10 most popular words on http://www.onet.pl]
+polski - 7
+jest - 6
+warto - 5
+brzęczek - 5
+tego - 5
+zobacz - 5

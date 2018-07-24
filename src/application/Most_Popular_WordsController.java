@@ -108,19 +108,15 @@ public class Most_Popular_WordsController extends BorderPane {
 		int counter = 0;
 		String[] chartNames = new String[10];
 		int[] chartValues = new int[10];
+		ObservableList<PieChart.Data> pieChartData = FXCollections.observableArrayList();
 		for (Entry<String, Integer> entry : wordsMap.entrySet()) {
 			chartNames[counter]= entry.getKey();
 			chartValues[counter] = entry.getValue();
+			pieChartData.add(new PieChart.Data(chartNames[counter] + " - " + chartValues[counter], chartValues[counter]));
 			top10.add(chartNames[counter] + " - " + chartValues[counter]);
 			counter++;
 			if(counter>9) {break;}
 		}
-		ObservableList<PieChart.Data> pieChartData = FXCollections.observableArrayList(
-				new PieChart.Data(chartNames[0] + " - " + chartValues[0], chartValues[0]), new PieChart.Data(chartNames[1] + " - " + chartValues[1], chartValues[1]),
-				new PieChart.Data(chartNames[2] + " - " + chartValues[2], chartValues[2]), new PieChart.Data(chartNames[3] + " - " + chartValues[3], chartValues[3]),
-				new PieChart.Data(chartNames[4] + " - " + chartValues[4], chartValues[4]), new PieChart.Data(chartNames[5] + " - " + chartValues[5], chartValues[5]),
-				new PieChart.Data(chartNames[6] + " - " + chartValues[6], chartValues[6]), new PieChart.Data(chartNames[7] + " - " + chartValues[7], chartValues[7]),
-				new PieChart.Data(chartNames[8] + " - " + chartValues[8], chartValues[8]), new PieChart.Data(chartNames[9] + " - " + chartValues[9], chartValues[9]));
 		final PieChart newChart = new PieChart(pieChartData);
 		newChart.setTitle("Most Frequent Words");
 		VBox newVBox = new VBox();
