@@ -53,7 +53,7 @@ public class Most_Popular_WordsController extends BorderPane {
 	void initialize() {
 	}
 
-	// Show error messages
+	// Show error alert
 	public void showErrorWindow(String errorMessage) {
 		Alert alert = new Alert(AlertType.ERROR);
 		alert.setTitle("Error Dialog");
@@ -62,7 +62,7 @@ public class Most_Popular_WordsController extends BorderPane {
 		alert.showAndWait();
 	}
 
-	// Write to file
+	// Save to file
 	static void saveFile(String path, List<String> content) throws IOException {
 		Files.write(Paths.get(path), content);
 	}
@@ -164,27 +164,34 @@ public class Most_Popular_WordsController extends BorderPane {
 		int numberOfWebsites = websitesVBox.getChildren().size();
 		tabs.getTabs().clear();
 		tabs.getTabs().add(generalTab);
+		if(numberOfWebsites==2) {
+			showErrorWindow("No websites selected!!!");
+			return;
+		}
 		for (int i = 2; i < numberOfWebsites; i++) {
 			VBox currentVBox = (VBox) websitesVBox.getChildren().get(i);
 			TextField websiteNameTF = (TextField) currentVBox.getChildren().get(0);
 			String websiteName = websiteNameTF.getText();
 			if (websiteName.equals("") || websiteName.equals(System.getProperty("line.separator"))) {
+				tabs.getTabs().clear();
 				showErrorWindow("You need to enter website address!!!");
 				return;
 			} else {
 				websitesList.add(websiteName);
 			}
-			tabs.getTabs().add(new Tab(websiteName));
 			TextField websiteSearchCriteriaTF = (TextField) currentVBox.getChildren().get(1);
 			String websiteSearchCriteria = websiteSearchCriteriaTF.getText();
 			if (websiteSearchCriteria.equals("")
 					|| websiteSearchCriteria.equals(System.getProperty("line.separator"))) {
+				tabs.getTabs().clear();
 				showErrorWindow("You need to enter search criteria!!!");
 				return;
 			} else {
 				searchCriteriaList.add(websiteSearchCriteria);
 			}
+			tabs.getTabs().add(new Tab(websiteName));
 		}
+		
 
 		// Scan websites for chosen elements
 
