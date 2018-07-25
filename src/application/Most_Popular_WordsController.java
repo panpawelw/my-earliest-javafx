@@ -203,7 +203,7 @@ public class Most_Popular_WordsController extends BorderPane {
 					rawText[i] += elem.text() + " ";
 				}
 			} catch (IllegalArgumentException e) {
-				showErrorWindow("Malformed URL, add 'http://' or 'https://'!!!");
+				showErrorWindow("Malformed URL, add protocol name - 'http://' or 'https://'!!!");
 				return;
 			} catch (Exception e) {
 				e.printStackTrace();
