@@ -55,6 +55,8 @@ public class Most_Popular_WordsController extends BorderPane {
 
 	// Show error alert
 	public void showErrorWindow(String errorMessage) {
+		tabs.getTabs().clear();
+		tabs.getTabs().add(generalTab);
 		Alert alert = new Alert(AlertType.ERROR);
 		alert.setTitle("Error Dialog");
 		alert.setHeaderText(null);
@@ -131,12 +133,10 @@ public class Most_Popular_WordsController extends BorderPane {
 	public void handleAddButton() {
 		VBox websiteVBox = new VBox();
 		TextField websiteNameTF = new TextField();
-		// websiteNameTF.setPromptText("add website...");
-		websiteNameTF.setText("http://www.onet.pl");
+		websiteNameTF.setPromptText("add website...");
 		websiteNameTF.setPrefWidth(135);
 		TextField websiteSearchCriteriaTF = new TextField();
-		// websiteSearchCriteriaTF.setPromptText("add search criteria...");
-		websiteSearchCriteriaTF.setText("span.title");
+		websiteSearchCriteriaTF.setPromptText("add search criteria...");
 		websiteSearchCriteriaTF.setPrefWidth(135);
 		Button deleteButton = new Button("delete website");
 		deleteButton.setPrefWidth(135);
@@ -169,7 +169,6 @@ public class Most_Popular_WordsController extends BorderPane {
 			TextField websiteNameTF = (TextField) currentVBox.getChildren().get(0);
 			String websiteName = websiteNameTF.getText();
 			if (websiteName.equals("") || websiteName.equals(System.getProperty("line.separator"))) {
-				tabs.getTabs().clear();
 				showErrorWindow("You need to enter website address!!!");
 				return;
 			} else {
@@ -179,7 +178,6 @@ public class Most_Popular_WordsController extends BorderPane {
 			String websiteSearchCriteria = websiteSearchCriteriaTF.getText();
 			if (websiteSearchCriteria.equals("")
 					|| websiteSearchCriteria.equals(System.getProperty("line.separator"))) {
-				tabs.getTabs().clear();
 				showErrorWindow("You need to enter search criteria!!!");
 				return;
 			} else {
@@ -204,9 +202,13 @@ public class Most_Popular_WordsController extends BorderPane {
 				for (Element elem : links) {
 					rawText[i] += elem.text() + " ";
 				}
+			} catch (IllegalArgumentException e) {
+				showErrorWindow("Malformed URL, add 'http://' or 'https://'!!!");
+				return;
 			} catch (Exception e) {
 				e.printStackTrace();
 				showErrorWindow("Problem connecting to " + website + "!!!");
+				return;
 			}
 
 			List<String> words = new ArrayList<>();
