@@ -3,7 +3,6 @@
 <?import javafx.scene.paint.*?>
 <?import javafx.scene.text.*?>
 <?import javafx.scene.control.*?>
-<?import java.lang.*?>
 <?import javafx.scene.layout.*?>
 
 <GridPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="602.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.DiceController">
@@ -24,7 +23,7 @@
       <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
   </rowConstraints>
    <children>
-      <Label fx:id="infoLabel" alignment="CENTER" prefHeight="67.0" prefWidth="895.0" text="Enter expression directly or use controls below to determine dice roll parameters. Detailed instructions here..." textAlignment="CENTER" wrapText="true" GridPane.columnSpan="2147483647">
+      <Label fx:id="infoLabel" alignment="CENTER" prefHeight="67.0" prefWidth="895.0" text="Enter expression directly or use controls below to determine dice roll parameters. Expression overrides parameters. Detailed instructions here..." textAlignment="CENTER" wrapText="true" GridPane.columnSpan="2147483647">
          <tooltip>
             <Tooltip height="1.0" text="Throw parameters are as follows:&#10;- multiplier (X) - how many dice are you going to roll (optional, 1 or more);&#10;- d3, d4, d6, d8, d10, d12, d20, d100 - the type of dice are you going to use;&#10;- modifier (Z) - how much should be added or subtracted from the result (optional);&#10;&#10;You can either  use controls below or enter an expression using XdY+/-Z format.&#10;(IMPORTANT!) The expression takes precedence over parameters you choose." textAlignment="CENTER" width="5.0">
                <font>
