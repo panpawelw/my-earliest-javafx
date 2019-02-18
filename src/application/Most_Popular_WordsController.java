@@ -20,8 +20,6 @@ import org.jsoup.select.Elements;
 
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.scene.chart.PieChart;
 import javafx.scene.control.Alert;
@@ -54,7 +52,7 @@ public class Most_Popular_WordsController extends BorderPane {
     }
 
     // Show error alert
-    public void showErrorWindow(String errorMessage) {
+    private void showErrorWindow(String errorMessage) {
         tabs.getTabs().clear();
         tabs.getTabs().add(generalTab);
         Alert alert = new Alert(AlertType.ERROR);
@@ -65,18 +63,18 @@ public class Most_Popular_WordsController extends BorderPane {
     }
 
     // Save to file
-    static void saveFile(String path, List<String> content) throws IOException {
+    private static void saveFile(String path, List<String> content) throws IOException {
         Files.write(Paths.get(path), content);
     }
 
     // Read from file
-    static String readFile(String path, Charset encoding) throws IOException {
+    private static String readFile(String path, Charset encoding) throws IOException {
         byte[] temp = Files.readAllBytes(Paths.get(path));
         return new String(temp, encoding);
     }
 
     // create an ordered word frequency map
-    static LinkedHashMap<String, Integer> wordsMap(String[] rawData) {
+    private static LinkedHashMap<String, Integer> wordsMap(String[] rawData) {
         HashMap<String, Integer> temp = new HashMap<>();
         for (String iterator : rawData) {
             Integer count = temp.get(iterator);
@@ -99,7 +97,7 @@ public class Most_Popular_WordsController extends BorderPane {
     }
 
     // Display chart and word list in a tab and return list of 10 top results
-    public List<String> displayInTab(String[] wordList, int tab) {
+    private List<String> displayInTab(String[] wordList, int tab) {
         List<String> top10 = new ArrayList<>();
         ScrollPane newSP = new ScrollPane();
         LinkedHashMap<String, Integer> wordsMap = wordsMap(wordList);
@@ -140,12 +138,7 @@ public class Most_Popular_WordsController extends BorderPane {
         websiteSearchCriteriaTF.setPrefWidth(135);
         Button deleteButton = new Button("delete website");
         deleteButton.setPrefWidth(135);
-        deleteButton.setOnAction(new EventHandler<ActionEvent>() {
-            @Override
-            public void handle(ActionEvent event) {
-                websitesVBox.getChildren().remove(websiteVBox);
-            }
-        });
+        deleteButton.setOnAction(event -> websitesVBox.getChildren().remove(websiteVBox));
         websiteVBox.getChildren().addAll(websiteNameTF, websiteSearchCriteriaTF, deleteButton);
         websitesVBox.getChildren().add(websiteVBox);
     }

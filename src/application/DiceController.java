@@ -4,8 +4,6 @@ import java.util.Random;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import javafx.beans.value.ChangeListener;
-import javafx.beans.value.ObservableValue;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
@@ -55,27 +53,23 @@ public class DiceController extends GridPane {
         tBD12.setUserData(12);
         tBD20.setUserData(20);
         tBD100.setUserData(100);
-        multiplierTF.focusedProperty().addListener(new ChangeListener<Boolean>() { // listener to detect change in
-            // multiplier text field
-            @Override
-            public void changed(ObservableValue<? extends Boolean> observable, Boolean oldValue, Boolean newValue) {
-                if (!newValue) {
-                    handleMultiplierTF();
-                }
+        // listener to detect change in
+// multiplier text field
+        multiplierTF.focusedProperty().addListener((observable, oldValue, newValue) -> {
+            if (!newValue) {
+                handleMultiplierTF();
             }
         });
-        modifierTF.focusedProperty().addListener(new ChangeListener<Boolean>() { // listener to detect change in
-            // modifier textfield
-            @Override
-            public void changed(ObservableValue<? extends Boolean> observable, Boolean oldValue, Boolean newValue) {
-                if (!newValue) {
-                    handleModifierTF();
-                }
+        // listener to detect change in
+// modifier textfield
+        modifierTF.focusedProperty().addListener((observable, oldValue, newValue) -> {
+            if (!newValue) {
+                handleModifierTF();
             }
         });
     }
 
-    public long calculateResult(long multiplier, int diceType, long modifier) { // method to calculate dice roll
+    private long calculateResult(long multiplier, int diceType, long modifier) { // method to calculate dice roll
         Random rand = new Random();
         long finalResult = 0;
         for (long l = 0; l < multiplier; l++) {
@@ -89,7 +83,7 @@ public class DiceController extends GridPane {
     public void handleRollButton() { // handler for the Roll button
         String expression = expressionTF.getText(); // detect if expression has been manually entered
         String comment = "";
-        if (expression.matches("^\\d*d([3468]|100|12|20|10)\\s*(\\+|-)\\s*\\d*$")) {
+        if (expression.matches("^\\d*d([3468]|100|12|20|10)\\s*([+\\-])\\s*\\d*$")) {
             long multiplier = 0L;
             int diceType = 0;
             long modifier = 0L;
@@ -103,10 +97,10 @@ public class DiceController extends GridPane {
             if(diceTypeMatcher.find()){
                 diceType = Integer.parseInt(diceTypeMatcher.group(0).replaceAll("^d", ""));
             }
-            Pattern modifierPattern = Pattern.compile("(\\+|-)+\\s*\\d*$");
+            Pattern modifierPattern = Pattern.compile("([+\\-])+\\s*\\d*$");
             Matcher modifierMatcher = modifierPattern.matcher(expression);
             if(modifierMatcher.find()){
-                modifier = Long.parseLong(modifierMatcher.group(0).replaceAll("^(\\+|-)+\\s*", ""));
+                modifier = Long.parseLong(modifierMatcher.group(0).replaceAll("^([+\\-])+\\s*", ""));
             }
             rollResultLabel.setText("" + calculateResult(multiplier, diceType, modifier));
         } else { // if not, or expression was invalid - use UI selected parameters

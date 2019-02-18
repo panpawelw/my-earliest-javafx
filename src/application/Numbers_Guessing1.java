@@ -33,36 +33,32 @@ public class Numbers_Guessing1 extends Application {
         userInputTextField.setMinWidth(100);
         Button button = new Button("Enter number");
 
-        EventHandler<ActionEvent> handler = new EventHandler<ActionEvent>() { 	// handler for both events
-            // (pressing enter and clicking 'enter
-            // number' button)
-            @Override
-            public void handle(ActionEvent event) {
-                String guess = userInputTextField.getText();
-                String answer = "";
-                int numericGuess = 0;
-                try {
-                    numericGuess = Integer.parseInt(guess);
-                } catch (NumberFormatException e) {
-                    answer = "not a number, try again!";
-                    lowerlab.setText(guess + " " + answer);
-                    userInputTextField.clear();
-                    return;
-                }
-                if (numericGuess < 1 || numericGuess > 100) {
-                    answer = "outside given range!";
-                } else if (numericGuess < numberToGuess) {
-                    answer = "too little!";
-                } else if (numericGuess > numberToGuess) {
-                    answer = "too much!";
-                } else {
-                    upperlab.setText("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!SPOT ON!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
-                    button.setText("QUIT");
-                    button.setOnAction((exitEvent) -> {Platform.exit();});
-                }
-                lowerlab.setText(guess + " is " + answer);
+        // handler for both events
+        // (pressing enter and clicking 'enter
+        // number' button)
+        EventHandler<ActionEvent> handler = event -> {
+            String guess = userInputTextField.getText();
+            int numericGuess;
+            try {
+                numericGuess = Integer.parseInt(guess);
+            } catch (NumberFormatException e) {
+                lowerlab.setText(guess + " not a number, try again!");
                 userInputTextField.clear();
+                return;
             }
+            if (numericGuess < 1 || numericGuess > 100) {
+                lowerlab.setText(guess + " is outside given range!");
+            } else if (numericGuess < numberToGuess) {
+                lowerlab.setText(guess + " is too little!");
+            } else if (numericGuess > numberToGuess) {
+                lowerlab.setText(guess + " is too much!");
+            } else {
+                upperlab.setText("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!SPOT ON!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
+                lowerlab.setText("");
+                button.setText("QUIT");
+                button.setOnAction((exitEvent) -> Platform.exit());
+            }
+            userInputTextField.clear();
         }; // The end of handler
 
         userInputTextField.setOnAction(handler);

@@ -40,36 +40,32 @@ public class Lottery extends Application {
         button.setPrefWidth(30);
         button.setStyle("-fx-background-color: Black; -fx-text-fill: Orange; -fx-border-color: White;");
         // TOGGLE BUTTONS HANDLER
-        EventHandler<ActionEvent> handlerTBs = new EventHandler<ActionEvent>() {
-            @Override
-            public void handle(ActionEvent event) {
-                @SuppressWarnings("unchecked")
-                ArrayList<Integer> alreadySelected = (ArrayList<Integer>) lowerlab.getUserData();
-                Integer newSelection = Integer.parseInt(((ToggleButton) event.getSource()).getText());
-                if (((ToggleButton) event.getSource()).isSelected()) {			// has the toggle button been pressed or de-pressed?
-                    if (alreadySelected.size() < 5) {							// how many buttons have been selected already?
-                        alreadySelected.add(newSelection);						// if less then 5, select a new one and add to the array list
-                        button.setText("");
-                        upperlab.setText("Select " + (6 - alreadySelected.size()) + " more to Draw!");
-                    } else if (alreadySelected.size() == 5) {					// if exactly 5 then select a next one and enable Draw button
-                        alreadySelected.add(newSelection);
-                        button.setText("D");
-                        upperlab.setText("Select D button to Draw!");
-                    } else if (alreadySelected.size() > 5) {					// more than five then don't allow any more toggle buttons
-                        ((ToggleButton) event.getSource()).setSelected(false);	// to be pressed
-                        button.setText("D");
-                        upperlab.setText("Select D button to Draw!");
-                    }
-                } else {
-                    while (alreadySelected.remove(newSelection)) {				// if toggle button is already selected then de-press it and
-                    }															// remove selection from the list
+        EventHandler<ActionEvent> handlerTBs = event -> {
+            @SuppressWarnings("unchecked")
+            ArrayList<Integer> alreadySelected = (ArrayList<Integer>) lowerlab.getUserData();
+            Integer newSelection = Integer.parseInt(((ToggleButton) event.getSource()).getText());
+            if (((ToggleButton) event.getSource()).isSelected()) {			// has the toggle button been pressed or de-pressed?
+                if (alreadySelected.size() < 5) {							// how many buttons have been selected already?
+                    alreadySelected.add(newSelection);						// if less then 5, select a new one and add to the array list
                     button.setText("");
                     upperlab.setText("Select " + (6 - alreadySelected.size()) + " more to Draw!");
+                } else if (alreadySelected.size() == 5) {					// if exactly 5 then select a next one and enable Draw button
+                    alreadySelected.add(newSelection);
+                    button.setText("D");
+                    upperlab.setText("Select D button to Draw!");
+                } else if (alreadySelected.size() > 5) {					// more than five then don't allow any more toggle buttons
+                    ((ToggleButton) event.getSource()).setSelected(false);	// to be pressed
+                    button.setText("D");
+                    upperlab.setText("Select D button to Draw!");
                 }
-                Collections.sort(alreadySelected);								// sort the list
-                lowerlab.setUserData(alreadySelected);							// store it as user-data in lower label element
-                lowerlab.setText(alreadySelected.toString());					// and display it
+            } else {
+                alreadySelected.remove(newSelection);	                	// if toggle button is already selected then de-press it and
+                button.setText("");
+                upperlab.setText("Select " + (6 - alreadySelected.size()) + " more to Draw!");
             }
+            Collections.sort(alreadySelected);								// sort the list
+            lowerlab.setUserData(alreadySelected);							// store it as user-data in lower label element
+            lowerlab.setText(alreadySelected.toString());					// and display it
         };
 
         // ADD ELEMENTS, HANDLERS, SHOW SCENE
